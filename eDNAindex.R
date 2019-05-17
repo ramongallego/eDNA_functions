@@ -21,7 +21,7 @@ eDNAindex<- function(df, Sample_column, OTU_column, Counts_column, Biological.re
       
       summarise ( sumreads = sum(!!Counts_column)) %>%  # This sums technical replicates
       
-      group_by(!!Biological.replicate) %>% 
+      group_by(!!Sample_column,!!Biological.replicate) %>% 
       
       mutate (Tot = sum(sumreads),
               Row.prop = sumreads / Tot)  %>%                      # This creates the proporttion on each biological replicate    
