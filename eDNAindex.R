@@ -14,6 +14,7 @@ eDNAindex<- function(df, Sample_column, OTU_column, Counts_column, Biological.re
   
   if (quo_name(Biological.replicate) %in% colnames(df)){
     
+    print ("Averaging ratios between Biological replicates")
     
     df %>% 
       
@@ -44,20 +45,21 @@ eDNAindex<- function(df, Sample_column, OTU_column, Counts_column, Biological.re
   }
   
   
-  
+  print("Calculating eDNAindex directly")
   
   # IF THERE ARE TECHNICAL REPLICATES, WE NEED TO SUM THOSE VALUES FIRST
   #return(!!Technical_replicate)
   
   
   df %>% 
+    
     group_by(!!Sample_column, !!OTU_column) %>%
     
     summarise (sumreads = sum(!!Counts_column)) %>% # In case the sample column is of a higher group than the nrows
     
     group_by(!!Sample_column) %>% 
     
-    mutate (Tot = sum(!!Counts_column),
+    mutate (Tot = sum(sumreads),
             Row.prop = sumreads / Tot) %>% 
     
     group_by (!!OTU_column) %>%
