@@ -1,7 +1,7 @@
 # Usage eDNAindex(x, sample, taxa, nReads) all elements without quotes
 
 
-eDNAindex<- function(df, Sample_column, OTU_column, Counts_column, Biological.replicate ){ # 
+eDNAindex<- function(df, Sample_column, OTU_column, Counts_column, Biological.replicate, ... ){ # 
  
   require(dplyr)
   require(rlang)
@@ -11,6 +11,37 @@ eDNAindex<- function(df, Sample_column, OTU_column, Counts_column, Biological.re
   OTU_column    <- rlang::enquo(OTU_column)
   Counts_column <- rlang::enquo(Counts_column)
   Biological.replicate <- rlang::enquo(Biological.replicate)
+  #vars.to.add   <- rlang::enquos(...)
+  
+  df %>% 
+    ungroup() %>% 
+    select (!!Sample_column, !!OTU_column, ...) %>% 
+    group_by(!!Sample_column, !!OTU_column) %>% 
+    summarise_all(first) -> matching.df
+  
+  # if(ncol(matching.df) > 2){
+  #   print("Adding extra vars")
+  #   
+  #   matching.df %>% 
+  #     select(-!!Sample_column, -!!OTU_column) %>% 
+  #     sapply(., typeof) -> types.of.vars
+  #   
+  #  if(str_detect(types.of.vars, "double")){
+  #   
+  #   matching.df %>% 
+  #     summarise_if(is.numeric,mean) -> num.vars
+  #  }
+  #  
+  #   if(str_detect(types.of.vars, "character")){
+  #     
+  #     matching.df %>% 
+  #       summarise_if(is.character,first) -> char.vars
+  #   }
+  #  
+  #   
+  #   
+  #   left_join(num.vars, char.vars) -> matching.df
+  # }
   
   if (quo_name(Biological.replicate) %in% colnames(df)){
     
@@ -25,7 +56,7 @@ eDNAindex<- function(df, Sample_column, OTU_column, Counts_column, Biological.re
       group_by(!!Sample_column,!!Biological.replicate) %>% 
       
       mutate (Tot = sum(sumreads),
-              Row.prop = sumreads / Tot)  %>%                      # This creates the proporttion on each biological replicate    
+              Row.prop = sumreads / Tot)  %>%                      # This creates the proportion on each biological replicate    
       
       group_by(!!Sample_column) %>% 
       
@@ -41,8 +72,8 @@ eDNAindex<- function(df, Sample_column, OTU_column, Counts_column, Biological.re
               Normalized.reads = mean.prop / Colmax) %>% 
       
       dplyr::select( -Colmax, -mean.prop) -> output 
-    return(output)
-  }
+    #return(output)
+  }else{
   
   
   print("Calculating eDNAindex directly")
@@ -66,8 +97,11 @@ eDNAindex<- function(df, Sample_column, OTU_column, Counts_column, Biological.re
     
     mutate (Colmax = max (Row.prop),
             Normalized.reads = Row.prop / Colmax) %>% 
-    dplyr::select(-Tot, -Row.prop, -Colmax, -sumreads)  #note, specifying dplyr::select to avoid conflict w MASS package
+    dplyr::select(-Tot, -Row.prop, -Colmax, -sumreads) -> output #note, specifying dplyr::select to avoid conflict w MASS package
+  }
   
-  
-  
+
+  left_join(output, matching.df) -> output
+ 
+  return (output)
 }
