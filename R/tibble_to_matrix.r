@@ -10,11 +10,18 @@ tibble_to_matrix <- function (long.table,taxon,Abundance, sample.name, distance 
   
   # So now the eDNA index works let's see if we can use decostand
   
+  # In case there are NAs in teh taxa, the thing breaks - 
+  
+  ## 
+  
+  long.table %>% 
+    mutate(!!taxon := case_when(is.na(!!taxon) ~ "NA",
+                                TRUE           ~ as.character(!!taxon))) -> long.table
+  
+  cols <- long.table %>% ungroup %>% dplyr::select(!!taxon) %>% distinct() %>% pull() # capture the unique values of the taxa
   
   
-  cols = long.table %>% ungroup %>% dplyr::select(!!taxon) %>% distinct() %>% pull() # capture the unique values of the taxa
-  
-  
+   
   long.table %>%
     ungroup %>% 
     select(!!taxon, !!Abundance, !!sample.name, ...) %>% # select at least three columns: nReads, taxa and the sampleID
