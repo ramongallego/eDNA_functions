@@ -3,7 +3,7 @@
 
 eDNAindex<- function(df, Sample_column, OTU_column, Counts_column, Biological.replicate, ... ){ # 
  
-  require(dplyr)
+  require(tidyverse)
   require(rlang)
   
   
