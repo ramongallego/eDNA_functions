@@ -3,6 +3,7 @@
 
 eDNAindex<- function(df, Sample_column, OTU_column, Counts_column, Biological.replicate, ... ){ # 
  
+
   require(tidyverse)
   require(rlang)
   
@@ -60,7 +61,7 @@ eDNAindex<- function(df, Sample_column, OTU_column, Counts_column, Biological.re
       
       group_by(!!Sample_column) %>% 
       
-      mutate (nreps = n_distinct(!!Biological.replicate)) %>% 
+      mutate (nreps = length(unique(!!Biological.replicate))) %>% 
       
       group_by(!!Sample_column, !!OTU_column) %>% 
       
