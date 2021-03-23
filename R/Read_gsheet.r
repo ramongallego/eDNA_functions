@@ -60,7 +60,6 @@ write_indexing_PCR <- function (data, name, ss_template="1naS-F_dj4SNmND5nJ5TKhM
   
   times <- 6
   
-  Sets <- Sets[1:ceiling(length(list.of.dfs)/times)]
   
   
   
