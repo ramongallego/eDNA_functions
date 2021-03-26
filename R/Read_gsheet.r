@@ -32,8 +32,8 @@ read_indexing_PCR <- function (ss){
       
     }
     )
-  }) %>% bind_rows() %>% 
-    select(WELL, SAMPLE, BARCODE, Set)
+  }) %>% bind_rows()  
+  %>%  select(Well, Sample, Barcode, Set)
   
 }
 
