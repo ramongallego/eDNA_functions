@@ -33,7 +33,7 @@ read_indexing_PCR <- function (ss){
     }
     )
   }) %>% bind_rows() %>% 
-    select(WELL, SAMPLE, BARCODE, Set)
+    select(Well, Sample, Barcode, Set)
   
 }
 
@@ -52,7 +52,11 @@ write_indexing_PCR <- function (data, name, ss_template="1naS-F_dj4SNmND5nJ5TKhM
   data %>% 
     group_by(Column) %>% 
     group_split() %>% 
-    map(~.x %>% select(Well, Sample, Well) )-> list.of.dfs
+    map(~.x %>% select(Well, Sample) %>% 
+          mutate(Barcode = Well,
+                 B1 = "",
+                 B2 = "",
+                 Set = "B"))-> list.of.dfs
   
   
   Sets <- list (c(16,24), c(26, 34), c(36,44))
