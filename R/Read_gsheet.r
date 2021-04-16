@@ -97,3 +97,75 @@ write_indexing_PCR <- function (data, name, ss_template="1naS-F_dj4SNmND5nJ5TKhM
 
   
 }
+
+
+## Normal PCRs
+## Capture the conditions and samples
+
+read_step1_PCR <- function(ss, trim = T){
+  
+  require(googlesheets4)
+  require(tidyverse)
+  
+  # This works with my PCR spreadsheets.
+  
+  # Capture PCR conditions
+  
+  PCR_mix <- read_sheet(ss = ss,
+                        range = cell_limits(ul = c(3, 1),
+                                            lr = c(12, 7)),
+                        col_names = F, 
+                        col_types = "ccccccd") %>% 
+    select(1,7) %>% 
+    rename(Reagent = 1, Volume = 2)
+  
+  #return(PCR_mix)
+  
+  Cycling_conditions <- read_sheet(ss = ss,
+                                   range = cell_limits(ul = c(1, 26),
+                                                       lr = c(7, 32)),
+                                   col_names = T, 
+                                   col_types = "ccccddd") %>% 
+    select(Step, temp, time_secs)  
+   
+ # return(Cycling_conditions)
+  # 
+  Sets <- list (c(16,24), c(26, 34), c(36,44))
+  width <- 6
+  times <- 6
+
+  # Create a set of limits
+  limits <- map(1:times, function(.x){
+    list (start = (1+((.x -1)*width)),
+          finish = width + ((.x -1)* width) )
+
+
+  })
+
+  # use them with the sets
+
+  map(Sets, function(.y){
+
+
+    map(limits, function(.x){
+
+      read_sheet(ss = ss,
+                 range = cell_limits(ul = c(.y[1], .x$start),
+                                     lr = c(.y[2], .x$finish)),
+                 col_names = T,
+                 col_types = "c")
+
+    }
+    )
+
+  }) %>% bind_rows()  %>%
+    select(Well, Sample, Success, Notes) -> Samples
+  
+  if(trim){Samples <- Samples %>% filter (!is.na(Sample))}
+  
+  return(list(PCR_mix = PCR_mix,
+              Cycling = Cycling_conditions,
+              Samples = Samples))
+  
+  
+}
