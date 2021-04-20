@@ -102,7 +102,7 @@ write_indexing_PCR <- function (data, name, ss_template="1naS-F_dj4SNmND5nJ5TKhM
 ## Normal PCRs
 ## Capture the conditions and samples
 
-read_step1_PCR <- function(ss, trim = T){
+read_step1_PCR <- function(ss, trim = T, name = T){
   
   require(googlesheets4)
   require(tidyverse)
@@ -162,6 +162,9 @@ read_step1_PCR <- function(ss, trim = T){
     select(Well, Sample, Success, Notes) -> Samples
   
   if(trim){Samples <- Samples %>% filter (!is.na(Sample))}
+  
+  if(name){x<- gs4_get(ss)$name
+  Samples$PCR <-  x}
   
   return(list(PCR_mix = PCR_mix,
               Cycling = Cycling_conditions,
