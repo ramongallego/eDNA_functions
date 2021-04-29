@@ -172,3 +172,87 @@ read_step1_PCR <- function(ss, trim = T, name = T){
   
   
 }
+
+# read_quick_PCR <- function(ss, trim = T, name = T){
+#   
+#   require(googlesheets4)
+#   require(tidyverse)
+#   
+#   # This works with my PCR spreadsheets.
+#   
+#   # Capture PCR conditions
+#   
+#   PCR_mix <- read_sheet(ss = ss,
+#                         range = cell_limits(ul = c(3, 1),
+#                                             lr = c(12, 7)),
+#                         col_names = F, 
+#                         col_types = "ccccccd") %>% 
+#     select(1,7) %>% 
+#     rename(Reagent = 1, Volume = 2)
+#   
+#   #return(PCR_mix)
+#   
+#   Cycling_conditions <- read_sheet(ss = ss,
+#                                    range = cell_limits(ul = c(1, 26),
+#                                                        lr = c(7, 32)),
+#                                    col_names = T, 
+#                                    col_types = "ccccddd") %>% 
+#     select(Step, temp, time_secs)  
+#   
+#   ## Copy everything to a temp file
+#   
+#   temp.sheet <- read_sheet(ss = ss,
+#                            range = cell_limits(ul = c(16, 1),
+#                                                lr = c(44, 36)),
+#                            col_names = F,
+#                            col_types = "c")
+#   file <- tempfile(fileext = ".csv")
+#   
+#   write_csv(temp.sheet, col_names = F, file = file)
+#   
+#   
+#   # return(Cycling_conditions)
+#   # 
+#   Sets <- list (c(1,9), c(11, 19), c(21,29))
+#   width <- 6
+#   times <- 6
+#   
+#   # Create a set of limits
+#   limits <- map(1:times, function(.x){
+#     list (start = (1+((.x -1)*width)),
+#           finish = width + ((.x -1)* width) )
+#     
+#     
+#   })
+#   
+#   # use them with the sets
+#   
+#   map(Sets, function(.y){
+#     
+#     
+#     map(limits, function(.x){
+#       
+#       read_lid(file  = file,
+#                  range = cell_limits(ul = c(.y[1], .x$start),
+#                                      lr = c(.y[2], .x$finish)),
+#                  col_names = T,
+#                  col_types = "c")
+#       
+#     }
+#     )
+#     
+#   }) %>% bind_rows()  %>%
+#     select(Well, Sample, Success, Notes) -> Samples
+#   
+#   if(trim){Samples <- Samples %>% filter (!is.na(Sample))}
+#   
+#   if(name){x<- gs4_get(ss)$name
+#   Samples$PCR <-  x}
+#   
+#   return(list(PCR_mix = PCR_mix,
+#               Cycling = Cycling_conditions,
+#               Samples = Samples))
+#   
+#   
+# }
+# 
