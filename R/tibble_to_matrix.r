@@ -55,18 +55,22 @@ tibble_to_matrix <- function (long.table,taxon,Abundance, sample.name, distance 
   long.table %>%
     ungroup %>% 
     select(!!taxon, !!Abundance, !!sample.name, ...) %>% # select at least three columns: nReads, taxa and the sampleID
-    spread (key = !!taxon, value = !!Abundance, fill = 0) -> matrix_1 # Make a wide table, like vegan likes
-  
-  env <- colnames(matrix_1)[!colnames(matrix_1) %in% cols] # Which column has all the sample info
-  
-  dplyr::select (matrix_1, env) -> env # The values of the sample info in the order they appear in the wide table
-  
-  samples <- pull (matrix_1, !!sample.name)
-  dplyr::select (matrix_1, cols) -> matrix_1 # select only the spp
-  data.matrix(matrix_1) -> matrix_1 # make it a data matrix
-  
+    spread (key = !!taxon, value = !!Abundance, fill = 0) -> wide_tibble # Make a wide table, like vegan likes
+   wide_tibble %>% arrange(!!sample.name) -> wide.rearranged
+  #  return(wide_tibble$Sample_name) 
+  return (head(wide.rearranged))
+  sample.col <- colnames(wide_tibble)[!colnames(wide_tibble) %in% cols] # Which column has all the sample info
+  #return(env)
+  dplyr::select (wide_tibble, sample.col) -> samples # The values of the sample info in the order they appear in the wide table
+  # return(samples)
+  samples <- pull (wide_tibble, !!sample.name)
+ # return(samples)
+  dplyr::select (wide_tibble, cols) -> wide_spp # select only the spp
+   #return(wide_spp)
+  data.matrix(wide_spp) -> matrix_1 # make it a data matrix
+   #return(str(matrix_1))
   dimnames(matrix_1)[[1]] <- samples # name it with the sample info
-  
+   #return(str(matrix_1))
   # Now that the matrix is ready to go, we can apply decostand if needed
   
   good.transformations <- c("total", "max", "frequency", "normalize", "range", 
@@ -148,16 +152,21 @@ tibble_to_env <- function (long.table,taxon,Abundance,sample.name, ...) {  # A f
   taxon = rlang::enquo(taxon) # quote taxon so it works with select
   #choice = rlang::enquo(distance)
   Abundance = rlang::enquo(Abundance)
-  cols = long.table %>% dplyr::select(!!taxon) %>% distinct() %>% pull() 
-  #return(cols)
+  
+  cols <- long.table %>% ungroup %>% dplyr::select(!!taxon) %>% distinct() %>% pull() # capture the unique values of the taxa
+   #return(cols)
   long.table %>%
     ungroup %>% 
     select(!!taxon, !!Abundance, !!sample.name, ...) %>% 
-    spread (key = !!taxon, value = !!Abundance, fill = 0) -> matrix_1
-  # return (matrix_1)
-  env <- colnames(matrix_1)[!colnames(matrix_1) %in% cols]
+    spread (key = !!taxon, value = !!Abundance, fill = 0) -> wide_tibble
+  wide_tibble %>% arrange(!!sample.name) -> wide_tibble
+   # return (head(wide.rearranged))
+  env <- colnames(wide_tibble)[!colnames(wide_tibble) %in% cols]
   # return(env)
-  dplyr::select (matrix_1, env) -> env
+  dplyr::select (wide_tibble, env) -> env
+  env %>% distinct()-> env
   return(env)
+ 
+  
 }
 
