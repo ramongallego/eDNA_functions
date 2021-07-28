@@ -58,14 +58,14 @@ tibble_to_matrix <- function (long.table,taxon,Abundance, sample.name, distance 
     spread (key = !!taxon, value = !!Abundance, fill = 0) -> wide_tibble # Make a wide table, like vegan likes
    wide_tibble %>% arrange(!!sample.name) -> wide.rearranged
   #  return(wide_tibble$Sample_name) 
-  return (head(wide.rearranged))
+  # return (head(wide.rearranged))
   sample.col <- colnames(wide_tibble)[!colnames(wide_tibble) %in% cols] # Which column has all the sample info
   #return(env)
-  dplyr::select (wide_tibble, sample.col) -> samples # The values of the sample info in the order they appear in the wide table
+  dplyr::select (wide.rearranged, sample.col) -> samples # The values of the sample info in the order they appear in the wide table
   # return(samples)
-  samples <- pull (wide_tibble, !!sample.name)
+  samples <- pull (wide.rearranged, !!sample.name)
  # return(samples)
-  dplyr::select (wide_tibble, cols) -> wide_spp # select only the spp
+  dplyr::select (wide.rearranged, cols) -> wide_spp # select only the spp
    #return(wide_spp)
   data.matrix(wide_spp) -> matrix_1 # make it a data matrix
    #return(str(matrix_1))
@@ -157,8 +157,10 @@ tibble_to_env <- function (long.table,taxon,Abundance,sample.name, ...) {  # A f
    #return(cols)
   long.table %>%
     ungroup %>% 
-    select(!!taxon, !!Abundance, !!sample.name, ...) %>% 
-    spread (key = !!taxon, value = !!Abundance, fill = 0) -> wide_tibble
+    # select(!!taxon, !!Abundance, !!sample.name, ...) %>% 
+    select( -!!taxon, -!!Abundance) %>% 
+    distinct()-> wide_tibble
+    # spread (key = !!taxon, value = !!Abundance, fill = 0) -> wide_tibble
   wide_tibble %>% arrange(!!sample.name) -> wide_tibble
    # return (head(wide.rearranged))
   env <- colnames(wide_tibble)[!colnames(wide_tibble) %in% cols]

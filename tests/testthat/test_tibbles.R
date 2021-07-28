@@ -1,6 +1,7 @@
 context("Making matrices and environmental datasets")
 
-
+require (tidyverse)
+require(vegan)
 left_join(ASV.table, metadata) -> input
 output_distance <- tibble_to_matrix(long.table = input,taxon =Hash, Abundance = nReads, sample.name = Sample_name,
                                     distance = "bray",transformation = "")
