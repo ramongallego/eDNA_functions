@@ -3,3 +3,5 @@
 .RData
 .Ruserdata
 eDNA_functions.Rproj
+.DS_Store
+.Rbuildignore
