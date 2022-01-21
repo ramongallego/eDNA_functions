@@ -113,7 +113,7 @@ read_step1_PCR <- function(ss, trim = T, name = T){
   
   PCR_mix <- read_sheet(ss = ss,
                         range = cell_limits(ul = c(3, 1),
-                                            lr = c(12, 7)),
+                                            lr = c(13, 7)),
                         col_names = F, 
                         col_types = "ccccccd") %>% 
     select(1,7) %>% 
