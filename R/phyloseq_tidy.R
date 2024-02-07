@@ -8,6 +8,7 @@ tidy2phyloseq <- function (ASV_table = ASV_collapsed_by_BLAST,
   # reduce dfs to equal dimmensions
   
   ## OTU_table
+  if(!is.null(OTU_taxonomy)){
   OTU_taxonomy |> 
     semi_join(ASV_table) |> 
     as.data.frame() -> midstep
@@ -19,7 +20,8 @@ tidy2phyloseq <- function (ASV_table = ASV_collapsed_by_BLAST,
   
   midstep |> 
     column_to_rownames(Taxa) |> 
-    colnames()-> dimnames(newtax)[[2]]
+    colnames()-> dimnames(newtax)[[2]]}
+  
   ## Metadata
   metadata |> 
     semi_join(ASV_table) |> 
@@ -35,8 +37,8 @@ tidy2phyloseq <- function (ASV_table = ASV_collapsed_by_BLAST,
     otu_table(taxa_are_rows = F) -> newotu
   
   
-  
-  phyloseq(newtax,newsample,newotu, tree)
+
+  phyloseq(newsample,newotu, newtax,tree)
   
   
 }
