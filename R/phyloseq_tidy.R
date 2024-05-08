@@ -36,7 +36,7 @@ tidy2phyloseq <- function (ASV_table = ASV_collapsed_by_BLAST,
     column_to_rownames(Sample) |> 
     otu_table(taxa_are_rows = F) -> newotu
   
-  if(!is.null(OTU_taxonomy)){
+  if(is.null(OTU_taxonomy)){
     
     phyloseq(newsample,newotu,tree)
     

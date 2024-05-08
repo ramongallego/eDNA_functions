@@ -1,11 +1,11 @@
 context("eDNAindex works directly ")
 
-output <- eDNAindex(ASV.table, Sample_name, Hash, nReads )
+output <- eDNAindex(training.ASV.table, Sample_name, Hash, nReads )
 
 Hash1<-  output %>% group_by(Hash) %>% tally(sort = T) %>% slice(1) %>% pull(Hash)
 
 test_that("length of output is similar to input ", {
-  expect_equal(nrow(ASV.table), nrow(output))
+  expect_equal(nrow(training.ASV.table), nrow(output))
   
 })
 
@@ -29,13 +29,13 @@ test_that("All ASVs get a max of 1", {
 ## With pooling
 
 
-input <- ASV.table %>%
+input <- training.ASV.table %>%
   separate(Sample_name, into = c("Biol", "PCR.replicate"), remove=F, sep = -1)
 output <- eDNAindex(input,
                     Sample_name, Hash, nReads, Biological.replicate = Biol, Biol )
 
 test_that("length of output is similar to input ", {
-  expect_equal(nrow(ASV.table), nrow(output))
+  expect_equal(nrow(training.ASV.table), nrow(output))
   
 })
 test_that(" values of each ASV are different", {
@@ -65,7 +65,7 @@ test_that("Not all biols get the same answer",{
 
 ## carryover works
 
-input <- ASV.table %>%
+input <- training.ASV.table %>%
   separate(Sample_name, into = c("Biol", "PCR.replicate"), remove=F, sep = -1)
 output <- eDNAindex(input,
                     Sample_name, Hash, nReads, Biological.replicate = Biol, Biol, PCR.replicate )
