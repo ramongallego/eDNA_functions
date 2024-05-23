@@ -9,14 +9,17 @@ tibble_to_comm <- function (long.table,taxon,Abundance, sample.name){
     mutate(!!taxon := case_when(is.na(!!taxon) ~ "NA",
                                 TRUE           ~ as.character(!!taxon))) -> long.table
   
-  cols <- long.table %>% ungroup %>% dplyr::select(!!taxon) %>% distinct() %>% pull() # capture the unique values of the taxa
+  cols <- long.table %>%
+    ungroup %>%
+    dplyr::select(!!taxon) %>% 
+    distinct() %>% pull() # capture the unique values of the taxa
   
   
   
   long.table %>%
     ungroup %>% 
-    select(!!taxon, !!Abundance, !!sample.name, ...) %>% # select at least three columns: nReads, taxa and the sampleID
-    spread (key = !!taxon, value = !!Abundance, fill = 0) -> matrix_1
+    select(!!taxon, !!Abundance, !!sample.name) %>% # select at least three columns: nReads, taxa and the sampleID
+    pivot_wider (names_from = !!taxon, values_from = !!Abundance, values_fill = 0) -> matrix_1
   
   samples <- pull (matrix_1, !!sample.name)
   dplyr::select (matrix_1, cols) -> matrix_1 # select only the spp
