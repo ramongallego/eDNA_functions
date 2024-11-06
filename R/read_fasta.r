@@ -31,28 +31,15 @@ fastq_reader <- function(path_to_fastq, keepQ=F){
   
 }
 
-read_info_file <- function (file, delim = "\t", col_names = TRUE, col_types = NULL, col_select = NULL, 
+read_info_file <- function (file, platform="Nanopore", delim = "\t", col_names = TRUE, col_types = NULL, col_select = NULL, 
                             id = NULL, locale = default_locale(), na = c("", "NA"), quoted_na = TRUE, 
                             quote = "\"", comment = "", trim_ws = TRUE, skip = 0, n_max = Inf, 
                             guess_max = min(1000, n_max), name_repair = "unique", num_threads = readr_threads(), 
                             progress = show_progress(), show_col_types = should_show_types(), 
                             skip_empty_rows = TRUE, lazy = should_read_lazy()) 
 {
-  if (edition_first()) {
-    tokenizer <- tokenizer_csv(na = na, quoted_na = quoted_na, 
-                               quote = quote, comment = comment, trim_ws = trim_ws, 
-                               skip_empty_rows = skip_empty_rows)
-    return(read_delimited(file, tokenizer, col_names = col_names, 
-                          col_types = col_types, locale = locale, skip = skip, 
-                          skip_empty_rows = skip_empty_rows, comment = comment, 
-                          n_max = n_max, guess_max = guess_max, progress = progress, 
-                          show_col_types = show_col_types))
-  }
-  if (!missing(quoted_na)) {
-    lifecycle::deprecate_soft("2.0.0", "readr::read_csv(quoted_na = )")
-  }
-  col_names <- c("Seq.id",
-                    "n_errors",
+  
+  col_names <- c(  "n_errors",
                     "start_adap",
                     "end_adap",
                     "seq_before_adap",
@@ -62,8 +49,9 @@ read_info_file <- function (file, delim = "\t", col_names = TRUE, col_types = NU
                     "QScores_seq_before",
                     "QScores_matching",
                     "QScores_after")
-  
-  vroom::vroom(file, delim = ",", col_names = col_names, col_types = col_types, 
+col_names <- case_when(platform== "Nanopore" ~ c("Seq.id", "Id2", "ID3", "ID4",col_names),
+                       TRUE                  ~ c("Seq.id", col_names))  
+  vroom::vroom(file, delim = delim, col_names = col_names, col_types = col_types, 
                col_select = {
                  {
                    col_select
