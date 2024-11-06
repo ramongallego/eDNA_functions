@@ -31,7 +31,7 @@ fastq_reader <- function(path_to_fastq, keepQ=F){
   
 }
 
-read_info_file <- function (file, platform="Nanopore", delim = "\t", col_names = TRUE, col_types = NULL, col_select = NULL, 
+read_info_file <- function (file, platform = "Nanopore", delim = "\t", col_names = TRUE, col_types = NULL, col_select = NULL, 
                             id = NULL, locale = default_locale(), na = c("", "NA"), quoted_na = TRUE, 
                             quote = "\"", comment = "", trim_ws = TRUE, skip = 0, n_max = Inf, 
                             guess_max = min(1000, n_max), name_repair = "unique", num_threads = readr_threads(), 
@@ -49,8 +49,10 @@ read_info_file <- function (file, platform="Nanopore", delim = "\t", col_names =
                     "QScores_seq_before",
                     "QScores_matching",
                     "QScores_after")
-col_names <- case_when(platform== "Nanopore" ~ c("Seq.id", "Id2", "ID3", "ID4",col_names),
-                       TRUE                  ~ c("Seq.id", col_names))  
+col_names <- case_when(platform == "Nanopore" ~ c("Seq.id", "Id2", "ID3", "ID4",col_names),
+                       platform != "Nanopore"                   ~ c("Seq.id", col_names))  
+
+
   vroom::vroom(file, delim = delim, col_names = col_names, col_types = col_types, 
                col_select = {
                  {
