@@ -13,7 +13,7 @@ tally_wide(tibble, rows, cols, wt = NULL, ...)
 
 \item{cols}{The column with the levels included as columns in the final table.}
 
-\item{wt}{The column (numeric) whose values to add in order to fill the cells. Defaults to NULL.}
+\item{wt}{The column (numeric) whose values to add in order to fill the cells. If wt = NULL (the default), counts are returned instead of weighted sums.}
 
 \item{...}{Any parameters that can be passed to tally_wide 'values_fill' is a useful one}
 }
