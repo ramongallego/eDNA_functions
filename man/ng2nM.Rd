@@ -2,6 +2,7 @@
 % Please edit documentation in R/molarityconversions.R
 \name{ng2nM}
 \alias{ng2nM}
+\alias{nM2ng}
 \title{functions to translate mass into molarity and viceversa, given we are talking about double stranded DNA
 it requires two inputs, the mass (or molarity) and the length of the amplicon
 It works with the two most common concentrations used in Molecular Ecology labs
@@ -9,14 +10,20 @@ It works with the two most common concentrations used in Molecular Ecology labs
  nM for molarity}
 \usage{
 ng2nM(ng, length_amplicon)
+
+nM2ng(nM, length_amplicon)
 }
 \arguments{
 \item{ng}{Numeric. the concentration in ng per uL}
 
 \item{length_amplicon}{Integer. The length of the amplicon in bp.}
+
+\item{nM}{Numeric. The concentration in nmoles per Litre}
 }
 \value{
 Numeric. The equivalent concentration in nmoles per Litre
+
+Numeric. The equivalent concentration in ng per uL
 }
 \description{
 functions to translate mass into molarity and viceversa, given we are talking about double stranded DNA
@@ -28,4 +35,7 @@ It works with the two most common concentrations used in Molecular Ecology labs
 \examples{
 data("molarity.data")
 molarity.data \%>\% mutate(moles = ng2nM(ng=mass, length_amplicon = Amp_len))
+data("molarity.data")
+molarity.data \%>\% mutate(mass = nM2ng(nM=Molarity, length_amplicon = Amp_len))
+
 }
