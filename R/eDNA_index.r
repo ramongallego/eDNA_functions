@@ -1,54 +1,51 @@
-# Usage eDNAindex(x, sample, taxa, nReads) all elements without quotes
+#' Create scaled relative proportions of the number of reads of taxa in different samples
+#'
+#' This function takes a long ASV table (tibble) and creates a new column with the relative proportions scaled to their maximum,
+#' to avoid the dominance of species with better primer efficiency
+#'
+#' @param tibble A tibble the ASV table in a long format, with at least three columns, Sample_column, OTU_column, Counts_column
+#' @param Sample_column The column indicating the sample.
+#' @param OTU_column The column indicating the OTU/ASV.
+#' @param Counts_column The column (numeric) with the number of sequences from that OTU in that sample.
+#' @param Biological_replicate_column The column representing replicate measurements of Sample_column. 
+#' @param ... Any extra columns that want to be added to the final dataset (either taxonomical information about OTUs, or metadata information about the samples)
+#' 
+#' @importFrom dplyr group_by summarise ungroup select mutate left_join across first
+#' @importFrom rlang enquo quo_name
+#' 
+#' @return A tibble with at least the columns Sample_column, OTU_column and Normalized.reads
+#' @export
+#'
+#' @examples
+#' data("training.ASV.table")
+#' eDNAindex(training.ASV.table, Sample_column = Sample_name)
 
 
-eDNAindex<- function(df, Sample_column, OTU_column, Counts_column, Biological.replicate, ... ){ # 
- 
+eDNAindex<- function(tibble,
+                     Sample_column=Sample,
+                     OTU_column=Hash,
+                     Counts_column=nReads,
+                     Biological_replicate_column=NULL,
+                     ... ) { 
 
-  require(tidyverse)
-  require(rlang)
-  
-  
-  Sample_column <- rlang::enquo(Sample_column)
-  OTU_column    <- rlang::enquo(OTU_column)
-  Counts_column <- rlang::enquo(Counts_column)
-  Biological.replicate <- rlang::enquo(Biological.replicate)
-  #vars.to.add   <- rlang::enquos(...)
-  
-  df %>% 
+  Sample_column  <- enquo(Sample_column)
+  OTU_column     <- enquo(OTU_column)
+  Counts_column  <- enquo(Counts_column)
+  BioRep         <- enquo(Biological_replicate_column)
+  # Keep metadata / extra columns
+  tibble %>% 
     ungroup() %>% 
     select (!!Sample_column, !!OTU_column, ...) %>% 
     group_by(!!Sample_column, !!OTU_column) %>% 
-    summarise_all(first) -> matching.df
+    summarise(across(everything(), first), .groups = "drop") -> matching.df
   
-  # if(ncol(matching.df) > 2){
-  #   print("Adding extra vars")
-  #   
-  #   matching.df %>% 
-  #     select(-!!Sample_column, -!!OTU_column) %>% 
-  #     sapply(., typeof) -> types.of.vars
-  #   
-  #  if(str_detect(types.of.vars, "double")){
-  #   
-  #   matching.df %>% 
-  #     summarise_if(is.numeric,mean) -> num.vars
-  #  }
-  #  
-  #   if(str_detect(types.of.vars, "character")){
-  #     
-  #     matching.df %>% 
-  #       summarise_if(is.character,first) -> char.vars
-  #   }
-  #  
-  #   
-  #   
-  #   left_join(num.vars, char.vars) -> matching.df
-  # }
   
-  if (quo_name(Biological.replicate) %in% colnames(df)){
+  if (!is.null(Biological_replicate_column) &&
+      quo_name(BioRep) %in% colnames(tibble)) {
     
-    print ("Averaging ratios between Biological replicates")
+    message ("Averaging ratios between Biological replicates")
     
-    df %>% 
+    tibble %>% 
       
       group_by(!!Sample_column, !!OTU_column, !!Biological.replicate) %>%
       
@@ -72,18 +69,15 @@ eDNAindex<- function(df, Sample_column, OTU_column, Counts_column, Biological.re
       mutate (Colmax = max (mean.prop),
               Normalized.reads = mean.prop / Colmax) %>% 
       
-      dplyr::select( -Colmax, -mean.prop) -> output 
-    #return(output)
-  }else{
+      select( -Colmax, -mean.prop) -> output 
+   
+  } else {
   
   
-  print("Calculating eDNAindex directly")
+  message ("Calculating eDNAindex directly")
+
   
-  # IF THERE ARE TECHNICAL REPLICATES, WE NEED TO SUM THOSE VALUES FIRST
-  #return(!!Technical_replicate)
-  
-  
-  df %>% 
+  tibble %>% 
     
     group_by(!!Sample_column, !!OTU_column) %>%
     
@@ -98,7 +92,7 @@ eDNAindex<- function(df, Sample_column, OTU_column, Counts_column, Biological.re
     
     mutate (Colmax = max (Row.prop),
             Normalized.reads = Row.prop / Colmax) %>% 
-    dplyr::select(-Tot, -Row.prop, -Colmax, -sumreads) -> output #note, specifying dplyr::select to avoid conflict w MASS package
+    select(-Tot, -Row.prop, -Colmax, -sumreads) -> output 
   }
   
 
