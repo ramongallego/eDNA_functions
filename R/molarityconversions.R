@@ -26,6 +26,7 @@ return(x)
 #' @param length_amplicon Integer. The length of the amplicon in bp.
 #' 
 #' @return Numeric. The equivalent concentration in ng per uL 
+#' @rdname ng2nM
 #' @export
 #'
 #' @examples
