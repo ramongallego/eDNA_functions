@@ -1,6 +1,26 @@
-# Create contingency tables with two variables
-
-tally_wide <- function (tibble, rows, cols, wt = NULL){
+#' Create contingency tables with two variables
+#'
+#' This function takes a tibble and create human readable 
+#' contingency tables from two variables, either by showing 
+#' number of cases in each combination or weighted by the sum of a numerical variable
+#'
+#' @param tibble A tibble containing at least two columns
+#' @param rows The column with the levels included as rows in the final table.
+#' @param cols The column with the levels included as columns in the final table.
+#' @param wt The column (numeric) whose values to add in order to fill the cells. If wt = NULL (the default), counts are returned instead of weighted sums.
+#' @param ... Any parameters that can be passed to tally_wide 'values_fill' is a useful one
+#' 
+#' @importFrom dplyr group_by tally
+#' @importFrom tidyr pivot_wider
+#' @importFrom rlang enquo
+#' 
+#' @return A tibble
+#' @export
+#'
+#' @examples
+#' data("training.metadata")
+#' tally_wide(training.metadata, rows= Transect, cols = position)
+tally_wide <- function (tibble, rows, cols, wt = NULL,...){
   
   rows = enquo(rows)
   cols = enquo(cols)
@@ -9,24 +29,9 @@ tally_wide <- function (tibble, rows, cols, wt = NULL){
   
   tibble %>% 
     group_by(!!rows, !!cols) %>% 
-    tally (.,wt = {{wt}}) %>% 
+    tally (.,wt = !!weight) %>% 
     pivot_wider(names_from=  !!cols,
-                values_from = n, names_repair = "minimal")
+                values_from = n, names_repair = "minimal",...)
   
 }
 
-tibbleseqs <- function(fastafile){
-  insect::readFASTA(fastafile) -> temp
-  tibble (header = str_remove(names(temp),";$"),
-          seq = insect::dna2char(temp))
-}
-
-fasta_to_ASV_table <- function(path_to_fastas){
-  
-  map(path_to_fastas, tibbleseqs) |> 
-    set_names(basename(path_to_fastas)) |> 
-    bind_rows(.id="sample_name") |> 
-    separate(header, into = c("Hash", "nReads"), sep = ";size=", convert=T)
-    
-  
-}
