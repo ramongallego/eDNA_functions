@@ -58,7 +58,7 @@ read_indexing_PCR <- function (ss) {
 #'
 #' Captures reagent mix, cycling conditions, and sample information.
 #'
-#' @inheritParams read_indexing_PCR
+#' @param ss Google Sheet ID or URL of the indexing PCR spreadsheet.
 #' @param trim Logical. If TRUE, removes rows where `Sample` is NA (default: TRUE).
 #' @param name Logical. If TRUE, adds the spreadsheet name as a `PCR` column in the sample sheet (default: TRUE).
 #'
