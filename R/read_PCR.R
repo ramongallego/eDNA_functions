@@ -114,7 +114,7 @@ read_step1_PCR <- function(ss, trim = TRUE, name = TRUE) {
                  col_names = TRUE,
                  col_types = "c")
     })
-  }) %>%
+  })  |> 
     bind_rows()  |> 
     select(Well, Sample, Success, Notes)
   
