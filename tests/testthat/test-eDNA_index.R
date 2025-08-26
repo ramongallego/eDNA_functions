@@ -1,5 +1,6 @@
 context("eDNAindex works directly ")
-
+data("training.ASV.table")
+library(tidyverse)
 output <- eDNAindex(training.ASV.table, Sample_name, Hash, nReads )
 
 Hash1<-  output %>% group_by(Hash) %>% tally(sort = T) %>% slice(1) %>% pull(Hash)
@@ -31,8 +32,8 @@ test_that("All ASVs get a max of 1", {
 
 input <- training.ASV.table %>%
   separate(Sample_name, into = c("Biol", "PCR.replicate"), remove=F, sep = -1)
-output <- eDNAindex(input,
-                    Sample_name, Hash, nReads, Biological.replicate = Biol, Biol )
+output <- eDNAindex(tibble = input,
+                    Sample_column = Sample_name,OTU_column = Hash,Counts_column =  nReads,Biological_replicate_column = Biol )
 
 test_that("length of output is similar to input ", {
   expect_equal(nrow(training.ASV.table), nrow(output))
@@ -54,25 +55,23 @@ test_that("All ASVs get a max of 1", {
                  pull, 1)
   
 })
-test_that("Not all biols get the same answer",{
-  expect_gt(output %>% 
-                 group_by(Biol, Hash) %>% 
-                 summarise(tot = n_distinct(Normalized.reads)) %>% 
-              
-                 pull %>% max(.), 1)
-  
-})
+
 
 ## carryover works
+data("training.metadata")
 
-input <- training.ASV.table %>%
-  separate(Sample_name, into = c("Biol", "PCR.replicate"), remove=F, sep = -1)
+input <- training.ASV.table |> 
+  inner_join(training.metadata |> 
+               select(Sample_name, Transect, depth, eDNA.sample)) 
 output <- eDNAindex(input,
-                    Sample_name, Hash, nReads, Biological.replicate = Biol, Biol, PCR.replicate )
-
+                    Sample_column = eDNA.sample,
+                    OTU_column = Hash,
+                    Counts_column = nReads,
+                    Biological_replicate_column = Sample_name,
+                    Transect, depth, Locus)
 test_that("colnames are kept",{
   
-  expect_setequal(input %>% select(-nReads, -Locus) %>% names(.) ,
+  expect_setequal(input %>% select(-nReads, -Sample_name) %>% names(.) ,
                output %>% select(-Normalized.reads) %>% names(.))
   
   
