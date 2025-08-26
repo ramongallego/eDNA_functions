@@ -14,7 +14,7 @@
 #'
 #' @examples
 #' data("molarity.data")
-#' molarity.data %>% mutate(moles = ng2nM(ng=mass, length_amplicon = Amp_len))
+#' molarity.data |> mutate(moles = ng2nM(ng=mass, length_amplicon = Amp_len))
 
 
 ng2nM <- function(ng, length_amplicon){
@@ -31,7 +31,7 @@ return(x)
 #'
 #' @examples
 #' data("molarity.data")
-#' molarity.data %>% mutate(mass = nM2ng(nM=Molarity, length_amplicon = Amp_len))
+#' molarity.data |> mutate(mass = nM2ng(nM=Molarity, length_amplicon = Amp_len))
 #' 
 nM2ng  <- function(nM, length_amplicon){
   x <- (nM*660*length_amplicon)/(1000000)
