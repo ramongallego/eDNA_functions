@@ -12,7 +12,7 @@
 #' @importFrom tidyr replace_na pivot_wider
 #' @importFrom dplyr mutate select pull arrange
 #' @importFrom tidyselect all_of
-#' @importFrom vegan decostand vegdist decostand.methods
+#' @importFrom vegan decostand vegdist
 #' 
 #' @return A numeric matrix with taxa as columns and samples as row names.
 #' @export
@@ -58,7 +58,7 @@ tibble_to_comm <- function(long.table, taxon, Abundance, sample.name) {
 #' @param Abundance Column with counts/abundance values (unquoted).
 #' @param sample.name Column with sample IDs (unquoted).
 #' @param distance Distance metric to use (default = "bray").
-#' @param transformation Optional transformation (e.g. "hellinger", "log").
+#' @param transformation Optional transformation (e.g. "hellinger", "log"). See vegan::decostand documentation for a great explanation of all transformations
 #' @param ... Extra metadata columns to keep alongside.
 #'
 #' @return A \code{dist} object.
@@ -74,6 +74,9 @@ tibble_to_dist <- function(long.table, taxon, Abundance, sample.name,
   sample.name <- rlang::enquo(sample.name)
   taxon <- rlang::enquo(taxon)
   Abundance <- rlang::enquo(Abundance)
+  METHODS <- c("total", "max", "frequency", "normalize", "range", 
+               "rank", "rrank", "standardize", "pa", "chi.square", "hellinger", 
+               "log", "clr", "rclr", "alr")
   
   long.table <- long.table |> 
     mutate(!!taxon := if_else(is.na(!!taxon), "NA", as.character(!!taxon)))
@@ -96,7 +99,7 @@ tibble_to_dist <- function(long.table, taxon, Abundance, sample.name,
   if (!is.null(transformation)) {
     if (transformation == "sq") {
       spp_matrix <- sqrt(spp_matrix)
-    } else if (transformation %in% vegan::decostand.methods) {
+    } else if (transformation %in% METHODS) {
       spp_matrix <- vegan::decostand(spp_matrix, method = transformation)
     }
   }

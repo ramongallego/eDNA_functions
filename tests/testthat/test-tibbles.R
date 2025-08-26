@@ -1,6 +1,7 @@
 # tests/testthat/test-tibble_to_vegan.R
 
 library(testthat)
+skip_if_not_installed("tidyverse")
 library(tidyverse)
 library(vegan)
 library(eDNAfuns)  # replace with your actual package name

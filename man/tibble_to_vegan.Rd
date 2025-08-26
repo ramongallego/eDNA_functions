@@ -31,7 +31,7 @@ tibble_to_env(long.table, taxon, Abundance, sample.name, ...)
 
 \item{distance}{Distance metric to use (default = "bray").}
 
-\item{transformation}{Optional transformation (e.g. "hellinger", "log").}
+\item{transformation}{Optional transformation (e.g. "hellinger", "log"). See vegan::decostand documentation for a great explanation of all transformations}
 
 \item{...}{Additional metadata columns to retain.}
 }
