@@ -19,7 +19,12 @@
 #' ps <- tidy2phyloseq(ASV_table = my_ASV, OTU_taxonomy = my_tax, metadata = my_meta)
 #' }
 #'
-#' @import phyloseq dplyr tidyr tibble
+#' @importFrom phyloseq phyloseq tax_table sample_data otu_table
+#' @importFrom dplyr semi_join
+#' @importFrom tibble column_to_rownames
+#' @importFrom tidyr pivot_wider
+#' @importFrom rlang :=
+#' 
 #' @export
 tidy2phyloseq <- function(ASV_table,
                           OTU_taxonomy = NULL,
@@ -83,7 +88,12 @@ tidy2phyloseq <- function(ASV_table,
 #' tidy_list <- phyloseq2tidy(my_phyloseq)
 #' }
 #'
-#' @import phyloseq dplyr tidyr tibble
+#' @importFrom phyloseq otu_table tax_table sample_data
+#' @importFrom dplyr filter all_of
+#' @importFrom tibble rownames_to_column as_tibble
+#' @importFrom tidyr pivot_longer
+#' @importFrom rlang .data 
+#' 
 #' @export
 phyloseq2tidy <- function(phylo_obj,
                           Taxa = "sseqid",
