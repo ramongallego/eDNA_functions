@@ -36,25 +36,25 @@ tidy2phyloseq <- function(ASV_table,
   
   # Taxonomy table
   if(!is.null(OTU_taxonomy)) {
-    newtax <- OTU_taxonomy %>%
-      semi_join(ASV_table, by = Taxa) %>%
-      column_to_rownames(Taxa) %>%
-      as.matrix() %>%
+    newtax <- OTU_taxonomy |> 
+      semi_join(ASV_table, by = Taxa) |> 
+      column_to_rownames(Taxa) |> 
+      as.matrix() |> 
       tax_table()
   }
   
   # Metadata
   if(!is.null(metadata)) {
-    newsample <- metadata %>%
-      semi_join(ASV_table, by = Sample) %>%
-      column_to_rownames(Sample) %>%
+    newsample <- metadata |> 
+      semi_join(ASV_table, by = Sample) |> 
+      column_to_rownames(Sample) |> 
       sample_data()
   } else newsample <- NULL
   
   # ASV table
-  newotu <- ASV_table %>%
-    pivot_wider(names_from = {{Taxa}}, values_from = {{Reads}}, values_fill = 0) %>%
-    column_to_rownames(Sample) %>%
+  newotu <- ASV_table |> 
+    pivot_wider(names_from = {{Taxa}}, values_from = {{Reads}}, values_fill = 0) |> 
+    column_to_rownames(Sample) |> 
     otu_table(taxa_are_rows = FALSE)
   
   # Construct phyloseq object
@@ -102,27 +102,27 @@ phyloseq2tidy <- function(phylo_obj,
   
   # helper to convert data.frame to tibble with rownames column
   df_to_tibble <- function(df, rowname_col) {
-    df %>%
-      as.data.frame() %>%
-      rownames_to_column(var = rowname_col) %>%
+    df |> 
+      as.data.frame() |> 
+      rownames_to_column(var = rowname_col) |> 
       as_tibble()
   }
   
   ## ASV table (long format)
-  otu_long <- otu_table(phylo_obj) %>%
-    as.data.frame() %>%
-    df_to_tibble(rowname_col = Sample) %>%
+  otu_long <- otu_table(phylo_obj) |> 
+    as.data.frame() |> 
+    df_to_tibble(rowname_col = Sample) |> 
     pivot_longer(
       cols = -all_of(Sample),
       names_to = Taxa,
       values_to = Reads
-    ) %>%
+    ) |> 
     filter(.data[[Reads]] > 0)
   
   ## Taxonomy table
   if (!is.null(tax_table(phylo_obj, errorIfNULL = FALSE))) {
-    tax_tab <- tax_table(phylo_obj) %>%
-      as.matrix() %>%
+    tax_tab <- tax_table(phylo_obj) |> 
+      as.matrix() |> 
       df_to_tibble(rowname_col = Taxa)
   } else {
     tax_tab <- NULL
@@ -130,8 +130,8 @@ phyloseq2tidy <- function(phylo_obj,
   
   ## Sample metadata
   if (!is.null(sample_data(phylo_obj, errorIfNULL = FALSE))) {
-    meta_tab <- sample_data(phylo_obj) %>%
-      as.data.frame() %>%
+    meta_tab <- sample_data(phylo_obj) |> 
+      as.data.frame() |> 
       df_to_tibble(rowname_col = Sample)
   } else {
     meta_tab <- NULL
