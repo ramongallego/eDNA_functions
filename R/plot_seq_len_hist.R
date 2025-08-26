@@ -26,7 +26,7 @@ plot_seq_len_hist <- function(Hash_tibble, length_col, binwidth = 1, label_inter
   x_breaks <- seq(x_min, x_max, by = 1)
   x_labels <- ifelse(x_breaks %% label_interval == 0, x_breaks, "")
   
-  p <- Hash_tibble %>%
+  p <- Hash_tibble |> 
     ggplot2::ggplot(ggplot2::aes(x = !!length_col)) +
     ggplot2::geom_histogram(binwidth = binwidth, color = "black", fill = "steelblue") +
     ggplot2::scale_x_continuous(breaks = x_breaks, labels = x_labels) +
