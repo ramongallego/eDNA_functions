@@ -26,6 +26,9 @@ contingency tables from two variables, either by showing
 number of cases in each combination or weighted by the sum of a numerical variable
 }
 \examples{
-data("training.metadata")
-tally_wide(training.metadata, rows= Transect, cols = position)
+ df <- tibble::tibble(
+  group = c("A", "A", "B", "B", "B"),
+    outcome = c("yes", "no", "yes", "yes", "no")
+ )
+tally_wide(df, rows = group, cols = outcome)
 }
