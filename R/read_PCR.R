@@ -24,7 +24,10 @@
 #'
 #' @seealso [read_step1_PCR()] for reading normal PCR spreadsheets.
 #'
-#' @import googlesheets4 dplyr purrr tibble tidyr
+#' @importFrom googlesheets4 read_sheet cell_limits gs4_get
+#' @importFrom purrr map
+#' @importFrom dplyr bind_rows select rename filter
+#' 
 #' @rdname read_PCR
 #' @export
 read_indexing_PCR <- function (ss) {
@@ -45,8 +48,8 @@ read_indexing_PCR <- function (ss) {
                  col_names = TRUE,
                  col_types = "c")
     })
-  }) %>%
-    bind_rows() %>%
+  })  |> 
+    bind_rows()  |> 
     select(Well, Sample, Barcode, Set)
 }
 #' Read Normal PCR Spreadsheet
@@ -76,7 +79,6 @@ read_indexing_PCR <- function (ss) {
 #'
 #' @seealso [read_indexing_PCR()] for reading multiplexing PCR spreadsheets.
 #'
-#' @import googlesheets4 dplyr purrr tibble tidyr
 #' @rdname read_PCR
 #' @export
 read_step1_PCR <- function(ss, trim = TRUE, name = TRUE) {
@@ -84,15 +86,15 @@ read_step1_PCR <- function(ss, trim = TRUE, name = TRUE) {
                         range = cell_limits(ul = c(3,1),
                                             lr = c(13,7)),
                         col_names = FALSE,
-                        col_types = "ccccccd") %>%
-    select(1,7) %>%
+                        col_types = "ccccccd")  |> 
+    select(1,7) |> 
     rename(Reagent = 1, Volume = 2)
   
   Cycling_conditions <- read_sheet(ss = ss,
                                    range = cell_limits(ul = c(1,26),
                                                        lr = c(7,32)),
                                    col_names = TRUE,
-                                   col_types = "ccccddd") %>%
+                                   col_types = "ccccddd") |> 
     select(Step, temp, time_secs)
   
   Sets <- list(c(16,24), c(26,34), c(36,44))
@@ -113,10 +115,10 @@ read_step1_PCR <- function(ss, trim = TRUE, name = TRUE) {
                  col_types = "c")
     })
   }) %>%
-    bind_rows() %>%
+    bind_rows()  |> 
     select(Well, Sample, Success, Notes)
   
-  if (trim) Samples <- Samples %>% filter(!is.na(Sample))
+  if (trim) Samples <- Samples |> filter(!is.na(Sample))
   if (name) Samples$PCR <- gs4_get(ss)$name
   
   return(list(PCR_mix = PCR_mix,
