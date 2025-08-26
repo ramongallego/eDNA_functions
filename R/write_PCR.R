@@ -48,11 +48,11 @@ write_indexing_PCR <- function (data,
   sheet_copy(from_ss = ss_template, to_ss = ss_obj, to_sheet = "Good")
   sheet_delete(ss_obj, "Sheet1")
   
-  data %>%
-    group_by(Column) %>%
-    group_split() %>%
-    map(~ .x %>%
-          select(Well, Sample) %>%
+  data |> 
+    group_by(Column) |> 
+    group_split() |> 
+    map(~ .x |> 
+          select(Well, Sample) |> 
           mutate(Barcode = Well,
                  B1 = "",
                  B2 = "",
@@ -68,13 +68,13 @@ write_indexing_PCR <- function (data,
   })
   
   tibble(Sets = rep(Sets, each = times),
-         Limits = rep(limits, length(Sets))) %>%
+         Limits = rep(limits, length(Sets))) |> 
     rownames_to_column("Pos") -> Positions
   
-  tibble(list.of.dfs) %>%
+  tibble(list.of.dfs) |> 
     rownames_to_column("Pos") -> datasets
   
-  left_join(datasets, Positions, by = "Pos") %>%
+  left_join(datasets, Positions, by = "Pos") |> 
     mutate(write = pwalk(.l = list(list.of.dfs, Sets, Limits),
                          .f = function(a, b, c){
                            range_write(ss_obj,
