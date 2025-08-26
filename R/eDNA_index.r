@@ -31,7 +31,7 @@ eDNAindex<- function(tibble,
   Sample_column  <- enquo(Sample_column)
   OTU_column     <- enquo(OTU_column)
   Counts_column  <- enquo(Counts_column)
-  BioRep         <- enquo(Biological_replicate_column)
+  Biological_replicate_column         <- enquo(Biological_replicate_column)
   # Keep metadata / extra columns
   tibble %>% 
     ungroup() %>% 
@@ -41,24 +41,24 @@ eDNAindex<- function(tibble,
   
   
   if (!is.null(Biological_replicate_column) &&
-      quo_name(BioRep) %in% colnames(tibble)) {
+      quo_name(Biological_replicate_column) %in% colnames(tibble)) {
     
     message ("Averaging ratios between Biological replicates")
     
     tibble %>% 
       
-      group_by(!!Sample_column, !!OTU_column, !!Biological.replicate) %>%
+      group_by(!!Sample_column, !!OTU_column, !!Biological_replicate_column) %>%
       
       summarise ( sumreads = sum(!!Counts_column)) %>%  # This sums technical replicates
       
-      group_by(!!Sample_column,!!Biological.replicate) %>% 
+      group_by(!!Sample_column,!!Biological_replicate_column) %>% 
       
       mutate (Tot = sum(sumreads),
               Row.prop = sumreads / Tot)  %>%                      # This creates the proportion on each biological replicate    
       
       group_by(!!Sample_column) %>% 
       
-      mutate (nreps = length(unique(!!Biological.replicate))) %>% 
+      mutate (nreps = length(unique(!!Biological_replicate_column))) %>% 
       
       group_by(!!Sample_column, !!OTU_column) %>% 
       
