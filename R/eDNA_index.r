@@ -17,8 +17,10 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' data("training.ASV.table")
 #' eDNAindex(training.ASV.table, Sample_column = Sample_name)
+#' }
 
 
 eDNAindex<- function(tibble,

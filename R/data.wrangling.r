@@ -18,8 +18,12 @@
 #' @export
 #'
 #' @examples
-#' data("training.metadata")
-#' tally_wide(training.metadata, rows= Transect, cols = position)
+#'  df <- tibble::tibble(
+#'   group = c("A", "A", "B", "B", "B"),
+#'     outcome = c("yes", "no", "yes", "yes", "no")
+#'  )
+#' tally_wide(df, rows = group, cols = outcome)
+
 tally_wide <- function (tibble, rows, cols, wt = NULL,...){
   
   rows = enquo(rows)
