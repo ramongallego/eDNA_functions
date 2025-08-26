@@ -9,13 +9,16 @@
 #' @param col_select Optional tidyselect specification of which columns to read.
 #' @param ... Additional arguments passed to [vroom::vroom()].
 #'
+#' @importFrom vroom vroom 
+#' @importFrom readr default_locale 
+#'
 #' @return A tibble with the parsed cutadapt information. Column names are standardized.
 #'
 #' @details
-#' - `read_info_file_nanopore()` returns columns:
-#'   `Seq.id`, `Id2`, `ID3`, `ID4`, `n_errors`, `start_adap`, `end_adap`,
-#'   `seq_before_adap`, `matching_seq`, `seq_after_adap`, `adap_name`,
-#'   `QScores_seq_before`, `QScores_matching`, `QScores_after`.
+# #' - `read_info_file_nanopore()` returns columns:
+# #'   `Seq.id`, `Id2`, `ID3`, `ID4`, `n_errors`, `start_adap`, `end_adap`,
+# #'   `seq_before_adap`, `matching_seq`, `seq_after_adap`, `adap_name`,
+# #'   `QScores_seq_before`, `QScores_matching`, `QScores_after`.
 #'
 #' - `read_info_file()` (Illumina) returns columns:
 #'   `Seq.id`, `n_errors`, `start_adap`, `end_adap`, `seq_before_adap`,
@@ -29,18 +32,6 @@
 #' }
 #'
 #' @export
-read_info_file_nanopore <- function(file, delim = "\t", col_select = NULL, ...) {
-  col_names <- c(
-    "Seq.id", "Id2", "ID3", "ID4", "n_errors",
-    "start_adap", "end_adap", "seq_before_adap", "matching_seq",
-    "seq_after_adap", "adap_name", "QScores_seq_before",
-    "QScores_matching", "QScores_after"
-  )
-  vroom::vroom(file, delim = delim, col_names = col_names, col_select = {{col_select}}, ...)
-}
-
-#' @rdname read_info_file_nanopore
-#' @export
 read_info_file <- function(file, delim = "\t", col_select = NULL, ...) {
   col_names <- c(
     "Seq.id", "n_errors", "start_adap", "end_adap", "seq_before_adap",
@@ -48,5 +39,20 @@ read_info_file <- function(file, delim = "\t", col_select = NULL, ...) {
     "QScores_matching", "QScores_after"
   )
   col_types <- c("ciiiccccccc")
-  vroom::vroom(file, delim = delim, col_names = col_names, col_types = col_types, col_select = {{col_select}}, ...)
+  vroom::vroom(file, delim = delim, col_names = col_names, col_types = col_types, col_select = {{col_names}}, ...,locale = readr::default_locale())
 }
+
+# #' @rdname read_info_file
+# #' @export
+# read_info_file_nanopore <- function(file, delim = "\t", col_select = NULL, ...) {
+#   col_names <- c(
+#     "Seq.id", "Id2", "ID3", "ID4", "n_errors",
+#     "start_adap", "end_adap", "seq_before_adap", "matching_seq",
+#     "seq_after_adap", "adap_name", "QScores_seq_before",
+#     "QScores_matching", "QScores_after"
+#   )
+#   vroom::vroom(file, delim = delim, col_names = col_names, col_select = {{col_names}}, ...,locale = readr::default_locale())
+# }
+
+
+
