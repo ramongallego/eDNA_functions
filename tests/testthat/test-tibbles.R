@@ -1,30 +1,43 @@
+# tests/testthat/test-tibble_to_vegan.R
+
+library(testthat)
+library(tidyverse)
+library(vegan)
+library(eDNAfuns)  # replace with your actual package name
+
 context("Making matrices and environmental datasets")
 
-require (tidyverse)
-require(vegan)
-left_join(training.ASV.table, training.metadata) -> input
-output_distance <- tibble_to_matrix(long.table = input,
-                                    taxon =Hash,
-                                    Abundance = nReads,
-                                    sample.name = Sample_name,
-                                    distance = "bray",transformation = "")
+# Example input data
+# Replace these with your actual training data if available
+input <- left_join(training.ASV.table, training.metadata)
 
-output_env <- tibble_to_env(long.table = input,
-                            taxon = Hash,
-                            Abundance = nReads,
-                            sample.name = Sample_name,
-                            everything())
+output_distance <- tibble_to_dist(
+  long.table = input,
+  taxon = Hash,
+  Abundance = nReads,
+  sample.name = Sample_name,
+  distance = "bray",
+  transformation = NULL
+)
 
-test_that("Dimensions of output are similar to n_distinct input ", {
+output_env <- tibble_to_env(
+  long.table = input,
+  taxon = Hash,
+  Abundance = nReads,
+  sample.name = Sample_name,
+  everything()
+)
+
+test_that("Dimensions of output distance matrix match number of unique samples", {
   expect_equal(n_distinct(input$Sample_name), attr(output_distance, "Size"))
 })
 
-test_that("order of samples is the same", {
+test_that("Order of samples in environmental data matches distance matrix labels", {
   expect_equal(output_env$Sample_name, attr(output_distance, "Labels"))
-  })
-
-test_that("nRows of environmental data are the same as the dissimilarity matrix", {
-  expect_equal  (nrow(output_env), n_distinct(input$Sample_name))
-                 
 })
+
+test_that("Number of rows in environmental data matches distance matrix size", {
+  expect_equal(nrow(output_env), n_distinct(input$Sample_name))
+})
+
 
