@@ -24,7 +24,7 @@
 #'
 #' @seealso [read_step1_PCR()] for reading normal PCR spreadsheets.
 #'
-#' @import googlesheets4 dplyr purrr
+#' @import googlesheets4 dplyr purrr tibble tidyr
 #' @rdname read_PCR
 #' @export
 read_indexing_PCR <- function (ss) {
@@ -76,7 +76,7 @@ read_indexing_PCR <- function (ss) {
 #'
 #' @seealso [read_indexing_PCR()] for reading multiplexing PCR spreadsheets.
 #'
-#' @import googlesheets4 dplyr purrr tibble
+#' @import googlesheets4 dplyr purrr tibble tidyr
 #' @rdname read_PCR
 #' @export
 read_step1_PCR <- function(ss, trim = TRUE, name = TRUE) {
