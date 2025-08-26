@@ -46,7 +46,8 @@ mutation <- function(sequence = NULL, format = "bin", n.mutations = NA, prob.mut
     })
     
     class(mutated_sequences) <- "character"
-  }else{
+  }else
+    {
   
   # Extract unique options for mutations from the first sequence
   options.for.mutations <- unique(sequence[[1]])
@@ -70,7 +71,7 @@ mutation <- function(sequence = NULL, format = "bin", n.mutations = NA, prob.mut
     return(seq)
   })
   class(mutated_sequences) <- "DNAbin"
-  }
+    }
   
   
   return(mutated_sequences)
