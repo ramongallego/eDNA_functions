@@ -12,7 +12,7 @@
 #' @importFrom tidyr replace_na pivot_wider
 #' @importFrom dplyr mutate select pull arrange
 #' @importFrom tidyselect all_of
-#' @importFrom vegan decostand vegdist
+#' @importFrom vegan decostand vegdist decostand.methods
 #' 
 #' @return A numeric matrix with taxa as columns and samples as row names.
 #' @export
@@ -26,21 +26,21 @@ tibble_to_comm <- function(long.table, taxon, Abundance, sample.name) {
   taxon <- rlang::enquo(taxon)
   Abundance <- rlang::enquo(Abundance)
   
-  long.table <- long.table %>%
+  long.table <- long.table |> 
     mutate(!!taxon := tidyr::replace_na(as.character(!!taxon), "NA"))
   
   
-  taxa <- long.table %>% pull(!!taxon) %>% unique()
+  taxa <- long.table |>  pull(!!taxon) |>  unique()
   
-  matrix_1 <- long.table %>%
-    select(!!sample.name, !!taxon, !!Abundance) %>%
+  matrix_1 <- long.table |> 
+    select(!!sample.name, !!taxon, !!Abundance) |> 
     tidyr::pivot_wider(names_from = !!taxon,
                        values_from = !!Abundance,
                        values_fill = 0)
   
   samples <- pull(matrix_1, !!sample.name)
   
-  matrix_1 <- select(matrix_1, all_of(taxa)) %>% data.matrix()
+  matrix_1 <- select(matrix_1, all_of(taxa)) |>  data.matrix()
   rownames(matrix_1) <- samples
   
   return(matrix_1)
@@ -75,21 +75,21 @@ tibble_to_dist <- function(long.table, taxon, Abundance, sample.name,
   taxon <- rlang::enquo(taxon)
   Abundance <- rlang::enquo(Abundance)
   
-  long.table <- long.table %>%
+  long.table <- long.table |> 
     mutate(!!taxon := if_else(is.na(!!taxon), "NA", as.character(!!taxon)))
   
-  taxa <- long.table %>% pull(!!taxon) %>% unique()
+  taxa <- long.table |>  pull(!!taxon) |>  unique()
   
-  wide_tibble <- long.table %>%
-    select(!!sample.name, !!taxon, !!Abundance, ...) %>%
+  wide_tibble <- long.table |> 
+    select(!!sample.name, !!taxon, !!Abundance, ...) |> 
     tidyr::pivot_wider(names_from = !!taxon,
                        values_from = !!Abundance,
-                       values_fill = 0) %>%
+                       values_fill = 0) |> 
     arrange(!!sample.name)
   
   samples <- pull(wide_tibble, !!sample.name)
   
-  spp_matrix <- select(wide_tibble, all_of(taxa)) %>% data.matrix()
+  spp_matrix <- select(wide_tibble, all_of(taxa)) |>  data.matrix()
   rownames(spp_matrix) <- samples
   
   # Apply transformation if requested
@@ -130,9 +130,9 @@ tibble_to_env <- function(long.table, taxon, Abundance, sample.name, ...) {
   Abundance <- rlang::enquo(Abundance)
   sample.name <- rlang::enquo(sample.name)
   
-  env <- long.table %>%
-    select(-!!taxon, -!!Abundance) %>%
-    distinct() %>%
+  env <- long.table |> 
+    select(-!!taxon, -!!Abundance) |> 
+    distinct() |> 
     arrange(!!sample.name)
   
   return(env)
