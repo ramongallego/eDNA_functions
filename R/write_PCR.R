@@ -34,7 +34,10 @@
 #' write_indexing_PCR(my_data, "PCR_001")
 #' }
 #'
-#' @import googlesheets4 dplyr purrr tibble
+#' @importFrom googlesheets4 gs4_create sheet_copy sheet_delete range_write cell_limits
+#' @importFrom dplyr group_by group_split select mutate left_join
+#' @importFrom purrr map pwalk
+#' @importFrom tibble tibble rownames_to_column
 #' @export
 write_indexing_PCR <- function (data,
                                 name,
