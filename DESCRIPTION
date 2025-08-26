@@ -10,6 +10,6 @@ Encoding: UTF-8
 LazyData: true
 Suggests: 
     testthat
-Imports: tidyverse, vegan
-Depends: 
-    R (>= 2.10)
+Imports: dplyr, googlesheets4,    phyloseq,    purrr,    rlang,    tibble,    tidyr, vegan, ggplot2, vroom
+Depends:     R (>= 3.5)
+RoxygenNote: 7.3.2
