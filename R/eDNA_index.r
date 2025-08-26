@@ -33,10 +33,10 @@ eDNAindex<- function(tibble,
   Counts_column  <- enquo(Counts_column)
   Biological_replicate_column         <- enquo(Biological_replicate_column)
   # Keep metadata / extra columns
-  tibble %>% 
-    ungroup() %>% 
-    select (!!Sample_column, !!OTU_column, ...) %>% 
-    group_by(!!Sample_column, !!OTU_column) %>% 
+  tibble |>  
+    ungroup() |>  
+    select (!!Sample_column, !!OTU_column, ...) |>  
+    group_by(!!Sample_column, !!OTU_column) |>  
     summarise(across(everything(), first), .groups = "drop") -> matching.df
   
   
@@ -45,29 +45,29 @@ eDNAindex<- function(tibble,
     
     message ("Averaging ratios between Biological replicates")
     
-    tibble %>% 
+    tibble |>  
       
-      group_by(!!Sample_column, !!OTU_column, !!Biological_replicate_column) %>%
+      group_by(!!Sample_column, !!OTU_column, !!Biological_replicate_column) |> 
       
-      summarise ( sumreads = sum(!!Counts_column)) %>%  # This sums technical replicates
+      summarise ( sumreads = sum(!!Counts_column)) |>   # This sums technical replicates
       
-      group_by(!!Sample_column,!!Biological_replicate_column) %>% 
+      group_by(!!Sample_column,!!Biological_replicate_column) |>  
       
       mutate (Tot = sum(sumreads),
-              Row.prop = sumreads / Tot)  %>%                      # This creates the proportion on each biological replicate    
+              Row.prop = sumreads / Tot)  |>                       # This creates the proportion on each biological replicate    
       
-      group_by(!!Sample_column) %>% 
+      group_by(!!Sample_column) |>  
       
-      mutate (nreps = length(unique(!!Biological_replicate_column))) %>% 
+      mutate (nreps = length(unique(!!Biological_replicate_column))) |>  
       
-      group_by(!!Sample_column, !!OTU_column) %>% 
+      group_by(!!Sample_column, !!OTU_column) |>  
       
-      summarise (mean.prop = sum (Row.prop) / max(nreps))   %>% 
+      summarise (mean.prop = sum (Row.prop) / max(nreps))   |>  
       
-      group_by (!!OTU_column) %>%
+      group_by (!!OTU_column) |> 
       
       mutate (Colmax = max (mean.prop),
-              Normalized.reads = mean.prop / Colmax) %>% 
+              Normalized.reads = mean.prop / Colmax) |>  
       
       select( -Colmax, -mean.prop) -> output 
    
@@ -77,21 +77,21 @@ eDNAindex<- function(tibble,
   message ("Calculating eDNAindex directly")
 
   
-  tibble %>% 
+  tibble |>  
     
-    group_by(!!Sample_column, !!OTU_column) %>%
+    group_by(!!Sample_column, !!OTU_column) |> 
     
-    summarise (sumreads = sum(!!Counts_column)) %>% # In case the sample column is of a higher group than the nrows
+    summarise (sumreads = sum(!!Counts_column)) |>  # In case the sample column is of a higher group than the nrows
     
-    group_by(!!Sample_column) %>% 
+    group_by(!!Sample_column) |>  
     
     mutate (Tot = sum(sumreads),
-            Row.prop = sumreads / Tot) %>% 
+            Row.prop = sumreads / Tot) |>  
     
-    group_by (!!OTU_column) %>%
+    group_by (!!OTU_column) |> 
     
     mutate (Colmax = max (Row.prop),
-            Normalized.reads = Row.prop / Colmax) %>% 
+            Normalized.reads = Row.prop / Colmax) |>  
     select(-Tot, -Row.prop, -Colmax, -sumreads) -> output 
   }
   
