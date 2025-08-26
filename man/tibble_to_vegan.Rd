@@ -53,8 +53,15 @@ Returns the environmental data frame (sample metadata) from a long
 sequence/OTU tibble by removing taxon and abundance columns.
 }
 \examples{
+\dontrun{
 tibble_to_comm(my_data, taxon = Species, Abundance = Count, sample.name = SampleID)
+}
+\dontrun{
 tibble_to_dist(my_data, taxon = Species, Abundance = Count, sample.name = SampleID,
                distance = "bray", transformation = "hellinger")
+}
+\dontrun{
+
 tibble_to_env(my_data, taxon = Species, Abundance = Count, sample.name = SampleID)
+}
 }
