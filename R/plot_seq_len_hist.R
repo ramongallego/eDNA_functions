@@ -8,6 +8,10 @@
 #' @param binwidth Width of histogram bins. Default = 1.
 #' @param label_interval Interval for x-axis labels. Default = 5.
 #'
+#' @importFrom rlang enquo
+#' @importFrom dplyr pull
+#' @importFrom ggplot2 ggplot aes geom_histogram scale_x_continuous theme_minimal labs
+#' 
 #' @return A ggplot object.
 #' @export
 #'
