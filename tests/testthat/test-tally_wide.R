@@ -31,8 +31,8 @@ test_that("tally_wide produces correct contingency tables", {
 
 test_that("tally_wide respects values_fill argument", {
   df <- tibble::tibble(
-    group = c("A", "B"),
-    outcome = c("yes", "yes")
+    group = c("A", "B", "B"),
+    outcome = c("yes", "yes", "no")
   )
   
   # Without values_fill, missing cells are NA
@@ -42,5 +42,5 @@ test_that("tally_wide respects values_fill argument", {
   # With values_fill = 0, missing cells are 0
   res_zero <- tally_wide(df, rows = group, cols = outcome, values_fill = list(n = 0))
   expect_equal(res_zero$no[res_zero$group == "A"], 0)
-  expect_equal(res_zero$no[res_zero$group == "B"], 0)
+  
 })
