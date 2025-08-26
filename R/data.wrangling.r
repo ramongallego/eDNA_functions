@@ -27,9 +27,9 @@ tally_wide <- function (tibble, rows, cols, wt = NULL,...){
   weight = enquo(wt)
   
   
-  tibble %>% 
-    group_by(!!rows, !!cols) %>% 
-    tally (.,wt = !!weight) %>% 
+  tibble |> 
+    group_by(!!rows, !!cols) |>  
+    tally (wt = !!weight) |>  
     pivot_wider(names_from=  !!cols,
                 values_from = n, names_repair = "minimal",...)
   
