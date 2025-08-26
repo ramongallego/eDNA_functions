@@ -1,4 +1,5 @@
 library(testthat)
+skip_if_not_installed("insect")
 library(insect)  # if needed for your data
 
 context("mutation function works as expected")
