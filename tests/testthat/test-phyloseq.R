@@ -4,19 +4,20 @@ test_that("tidy2phyloseq produces a phyloseq object", {
   data("metadata")
   data("OTU_taxonomy")
   data("tree")
-  
+  library(phyloseq)
+
   ps <- tidy2phyloseq(
     ASV_table = ASV_table,
     OTU_taxonomy = OTU_taxonomy,
     metadata = metadata,
-    Taxa = "sseqid",
+    Taxa = "Hash",
     Sample = "sample_name",
-    Reads = "nr",
+    Reads = "nReads",
     tree = tree
   )
   
   # Check that it’s a phyloseq object
-  expect_s3_class(ps, "phyloseq")
+  expect_s4_class(ps, "phyloseq")
   
   # Check slots
   expect_true(!is.null(otu_table(ps)))
@@ -35,17 +36,17 @@ test_that("phyloseq2tidy reproduces tidy data", {
     ASV_table = ASV_table,
     OTU_taxonomy = OTU_taxonomy,
     metadata = metadata,
-    Taxa = "sseqid",
+    Taxa = "Hash",
     Sample = "sample_name",
-    Reads = "nr",
+    Reads = "nReads",
     tree = tree
   )
   
   tidy_list <- phyloseq2tidy(
     phylo_obj = ps,
-    Taxa = "sseqid",
+    Taxa = "Hash",
     Sample = "sample_name",
-    Reads = "nr"
+    Reads = "nReads"
   )
   
   expect_type(tidy_list, "list")
@@ -53,10 +54,10 @@ test_that("phyloseq2tidy reproduces tidy data", {
   
   # Check ASV table consistency
   expect_true(all(unique(tidy_list$ASV_table$sample_name) %in% ASV_table$sample_name))
-  expect_true(all(unique(tidy_list$ASV_table$sseqid) %in% OTU_taxonomy$sseqid))
+  expect_true(all(unique(tidy_list$ASV_table$Hash) %in% OTU_taxonomy$Hash))
   
   # Check taxonomy
-  expect_true(all(tidy_list$taxonomy$sseqid %in% OTU_taxonomy$sseqid))
+  expect_true(all(tidy_list$taxonomy$Hash %in% OTU_taxonomy$Hash))
   
   # Check metadata
   expect_true(all(tidy_list$metadata$sample_name %in% metadata$sample_name))
