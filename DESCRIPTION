@@ -2,12 +2,12 @@ Package: eDNAfuns
 Type: Package
 Title: R Functions for Working with Metabarcoding Data
 Version: 0.1.0
-Author: Ramon Gallego Simon
+Author: Ramón Gallego Simón
 Authors@R: person(given = "Ramón",
                 family= c("Gallego Simón"),
                 role= c("aut","cre"),
                 email= "ramongallego@gmail.com")
-Maintainer: Ramon Gallego Simon <ramongallego@gmail.com>
+Maintainer: Ramón Gallego Simón <ramongallego@gmail.com>
 Description: A series of R functions that come in handy while working with metabarcoding data. Made by Ramon Gallego while working at the Kelly Lab (). The reasoning of doing this is to have the same functions we use all the time stored in a curated, reproducible way. And so end with the different transforming functions. In a way it is all about putting together the grammar of the tidyverse with the functions we have used in community ecology.
 License: GPL (>= 3)
 Encoding: UTF-8
