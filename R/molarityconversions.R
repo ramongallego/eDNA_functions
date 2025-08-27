@@ -1,15 +1,15 @@
-#' functions to translate mass into molarity and viceversa, given we are talking about double stranded DNA
-#' it requires two inputs, the mass (or molarity) and the length of the amplicon
+#' functions to translate mass into molarity and vice versa, given we are talking about double stranded DNA
+#' it requires two inputs, the mass (or molarity) and the length of the DNA fragment
 #' It works with the two most common concentrations used in Molecular Ecology labs
 #'  ng/ul for mass
 #'  nM for molarity
 
 #'
-#' @param ng Numeric. the concentration in ng per uL 
-#' @param length_amplicon Integer. The length of the amplicon in bp.
+#' @param ng Numeric. the concentration in ng per μL 
+#' @param length_amplicon Integer. The length of the DNA fragment in base pairs.
 #' 
 #' 
-#' @return Numeric. The equivalent concentration in nmoles per Litre
+#' @return Numeric. The equivalent concentration in nmoles per litre
 #' @export
 #'
 #' @examples
@@ -24,10 +24,10 @@ x <- (ng*1000000)/(660*length_amplicon)
 return(x)
 }
 
-#' @param nM Numeric. The concentration in nmoles per Litre
-#' @param length_amplicon Integer. The length of the amplicon in bp.
+#' @param nM Numeric. The concentration in nmoles per litre
+#' @param length_amplicon Integer. The length of the DNA fragment in base pairs.
 #' 
-#' @return Numeric. The equivalent concentration in ng per uL 
+#' @return Numeric. The equivalent concentration in ng per μL 
 #' @rdname ng2nM
 #' @export
 #'

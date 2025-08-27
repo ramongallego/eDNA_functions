@@ -67,9 +67,9 @@ read_indexing_PCR <- function (ss) {
 #'
 #' @return A named list with three elements:
 #' \describe{
-#'   \item{PCR_mix}{Tibble of reagents and volumes.}
-#'   \item{Cycling}{Tibble of PCR cycling conditions.}
-#'   \item{Samples}{Tibble of samples with columns `Well`, `Sample`, `Success`, `Notes`, and optionally `PCR`.}
+#'   \item{PCR_mix}{tibble of reagents and volumes.}
+#'   \item{Cycling}{tibble of PCR cycling conditions.}
+#'   \item{Samples}{tibble of samples with columns `Well`, `Sample`, `Success`, `Notes`, and optionally `PCR`.}
 #' }
 #'
 #' @examples
