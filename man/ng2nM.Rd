@@ -3,8 +3,8 @@
 \name{ng2nM}
 \alias{ng2nM}
 \alias{nM2ng}
-\title{functions to translate mass into molarity and viceversa, given we are talking about double stranded DNA
-it requires two inputs, the mass (or molarity) and the length of the amplicon
+\title{functions to translate mass into molarity and vice versa, given we are talking about double stranded DNA
+it requires two inputs, the mass (or molarity) and the length of the DNA fragment
 It works with the two most common concentrations used in Molecular Ecology labs
  ng/ul for mass
  nM for molarity}
@@ -14,20 +14,20 @@ ng2nM(ng, length_amplicon)
 nM2ng(nM, length_amplicon)
 }
 \arguments{
-\item{ng}{Numeric. the concentration in ng per uL}
+\item{ng}{Numeric. the concentration in ng per μL}
 
-\item{length_amplicon}{Integer. The length of the amplicon in bp.}
+\item{length_amplicon}{Integer. The length of the DNA fragment in base pairs.}
 
-\item{nM}{Numeric. The concentration in nmoles per Litre}
+\item{nM}{Numeric. The concentration in nmoles per litre}
 }
 \value{
-Numeric. The equivalent concentration in nmoles per Litre
+Numeric. The equivalent concentration in nmoles per litre
 
-Numeric. The equivalent concentration in ng per uL
+Numeric. The equivalent concentration in ng per μL
 }
 \description{
-functions to translate mass into molarity and viceversa, given we are talking about double stranded DNA
-it requires two inputs, the mass (or molarity) and the length of the amplicon
+functions to translate mass into molarity and vice versa, given we are talking about double stranded DNA
+it requires two inputs, the mass (or molarity) and the length of the DNA fragment
 It works with the two most common concentrations used in Molecular Ecology labs
  ng/ul for mass
  nM for molarity
