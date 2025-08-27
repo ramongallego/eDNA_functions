@@ -1,4 +1,4 @@
-taxonomy <-  function (local.file = "", db = "NCBI", synonyms = FALSE) 
+taxonomy_local <-  function (local.file = "", db = "NCBI", synonyms = FALSE) 
 {
     if (!identical(db, "NCBI")) {
         stop("Only the NCBI taxonomy database is available in this version\n")
