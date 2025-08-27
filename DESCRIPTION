@@ -11,7 +11,9 @@ LazyData: true
 Suggests: 
     insect,
     testthat,
-    tidyverse
+    tidyverse,
+    knitr,
+    rmarkdown
 Imports: 
     dplyr,
     googlesheets4,
@@ -29,3 +31,4 @@ Imports:
     readr
 Depends: R (>= 3.5)
 RoxygenNote: 7.3.2
+VignetteBuilder: knitr
