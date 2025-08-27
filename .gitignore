@@ -5,3 +5,4 @@
 eDNA_functions.Rproj
 .DS_Store
 .Rbuildignore
+check_local.R
