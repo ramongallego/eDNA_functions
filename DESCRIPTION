@@ -3,7 +3,7 @@ Type: Package
 Title: R Functions for Working with Metabarcoding Data
 Version: 0.1.0
 Author: Ramon Gallego Simon
-Author@R: person(given = "Ramón",
+Authors@R: person(given = "Ramón",
                 family= c("Gallego Simón"),
                 role= c("aut","cre"),
                 email= "ramongallego@gmail.com")
