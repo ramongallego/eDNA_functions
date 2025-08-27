@@ -9,9 +9,9 @@ A data frame with 384 rows and 6 columns
 \describe{
   \item{Index}{Character vector}
   \item{Bases_in_Adapter_i7}{Seqs in i7}
-  \item{Bases_for_sample_Sheet_i7}{Seqs to include}
-  \item{Bases_for_sample_Sheet_i5}{Seqs to include in some illumina platoforms}
-   \item{Bases_for_sample_Sheet_i5_B}{Seqs to include in other illumina platoforms}
+  \item{Bases_for_Sample_Sheet_i7}{Seqs to include}
+  \item{Bases_for_Sample_Sheet_i5}{Seqs to include in some illumina platoforms}
+   \item{Bases_for_Sample_Sheet_i5_B}{Seqs to include in other illumina platoforms}
    \item{Set}{A, B, C, or D}
 }
 }

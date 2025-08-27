@@ -5,10 +5,9 @@
 \alias{ASV_table}
 \title{ASV_table}
 \format{
-A data frame with 1025 rows and 4 variables:
+A data frame with 9 rows and 3 variables:
 \describe{
-  \item{Sample_name}{Character vector, last digit includes PCR replicate}
-  \item{Locus}{Which locus the sequences are from, numeric}
+  \item{sample_name}{Character vector, last digit includes PCR replicate}
   \item{Hash}{The sequence found, hashed using sha1 for consistency}
   \item{nReads}{Number of times that hash was found in that sample}
 }
