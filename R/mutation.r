@@ -10,6 +10,7 @@
 #' 
 #' @return A list of mutated sequences of the same class as the input.
 #' @export
+#' @importFrom stats runif
 #'
 #' @examples
 #' # sequence <- list(DNAbin object or character vector)
