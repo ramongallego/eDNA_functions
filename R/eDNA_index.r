@@ -10,7 +10,7 @@
 #' @param Biological_replicate_column The column representing replicate measurements of Sample_column. 
 #' @param ... Any extra columns that want to be added to the final dataset (either taxonomical information about OTUs, or metadata information about the samples)
 #' 
-#' @importFrom dplyr group_by summarise ungroup select mutate left_join across first
+#' @importFrom dplyr group_by summarise ungroup select mutate left_join across first everything
 #' @importFrom rlang enquo quo_name
 #' 
 #' @return A tibble with at least the columns Sample_column, OTU_column and Normalized.reads

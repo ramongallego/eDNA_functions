@@ -10,7 +10,7 @@
 #'
 #' @importFrom rlang enquo !!
 #' @importFrom tidyr replace_na pivot_wider
-#' @importFrom dplyr mutate select pull arrange
+#' @importFrom dplyr mutate select pull arrange if_else distinct
 #' @importFrom tidyselect all_of
 #' @importFrom vegan decostand vegdist
 #' 
