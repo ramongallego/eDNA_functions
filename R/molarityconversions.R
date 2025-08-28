@@ -1,11 +1,11 @@
 #' functions to translate mass into molarity and vice versa, given we are talking about double stranded DNA
 #' it requires two inputs, the mass (or molarity) and the length of the DNA fragment
 #' It works with the two most common concentrations used in Molecular Ecology labs
-#'  ng/ul for mass
+#'  ng/\eqn{\mu}l for mass
 #'  nM for molarity
 
 #'
-#' @param ng Numeric. the concentration in ng per μL 
+#' @param ng Numeric. the concentration in ng per \eqn{\mu}L 
 #' @param length_amplicon Integer. The length of the DNA fragment in base pairs.
 #' 
 #' 
@@ -27,7 +27,7 @@ return(x)
 #' @param nM Numeric. The concentration in nmoles per litre
 #' @param length_amplicon Integer. The length of the DNA fragment in base pairs.
 #' 
-#' @return Numeric. The equivalent concentration in ng per μL 
+#' @return Numeric. The equivalent concentration in ng per \eqn{\mu}L 
 #' @rdname ng2nM
 #' @export
 #'

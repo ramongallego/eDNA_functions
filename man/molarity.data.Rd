@@ -10,7 +10,7 @@ A tibble/data.frame with X rows and Y columns
   \item{Sample}{Name of sample}
   \item{Molarity}{in nM}
    \item{Amp_len}{length of amplicon in bp}
-   \item{mass}{in ng/ul }
+   \item{mass}{in ng/\eqn{\mu}l }
 }
 }
 \source{
