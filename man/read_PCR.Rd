@@ -10,7 +10,7 @@ read_indexing_PCR(ss)
 read_step1_PCR(ss, trim = TRUE, name = TRUE)
 }
 \arguments{
-\item{ss}{Google Sheet ID or URL of the indexing PCR spreadsheet.}
+\item{ss}{Google Sheet ID or URL of the PCR spreadsheet.}
 
 \item{trim}{Logical. If TRUE, removes rows where `Sample` is NA (default: TRUE).}
 

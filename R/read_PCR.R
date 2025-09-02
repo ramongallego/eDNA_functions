@@ -1,3 +1,35 @@
+#' Internal: Tidy PCR sample blocks
+#'
+#' Helper that takes a messy dataframe with repeated blocks of 6 columns
+#' and converts them into a single tidy tibble with expected columns.
+#'
+#' @param df A tibble as read from a Google Sheet.
+#' @param keep Which columns to keep/rename. Default is for normal PCR sheets.
+#'   Should be a named character vector like 
+#'   `c("Well"=1, "Sample"=2, "Success"=5, "Notes"=6)`.
+#' @param block_size Number of columns per block (default = 6).
+#'
+#' @return A tidy tibble.
+#' @keywords internal
+.tidy_PCR_blocks <- function(df,
+                             keep = c("Well"=1, "Sample"=2, "Success"=5, "Notes"=6),
+                             block_size = 6) {
+  n_blocks <- ncol(df) / block_size
+  
+  blocks <- map(1:n_blocks, function(i) {
+    start <- (i - 1) * block_size + 1
+    end   <- i * block_size
+    
+    df[, start:end] |>
+      select(!!!setNames(as.list(keep), names(keep))) |>
+      filter(.data[[names(keep)[1]]] != names(keep)[1]) |> # drop header rows
+      filter(!is.na(.data[["Sample"]])) |>                # drop NA Sample
+      filter(.data[["Sample"]] != "")                     # drop empty Sample
+  })
+  
+  bind_rows(blocks)
+}
+
 #' Read Indexing PCR Spreadsheet
 #'
 #' Reads data from a Google Sheets-based indexing PCR template. 
@@ -24,10 +56,11 @@
 #'
 #' @seealso [read_step1_PCR()] for reading normal PCR spreadsheets.
 #'
-#' @importFrom googlesheets4 read_sheet cell_limits gs4_get
+#' @importFrom googlesheets4 read_sheet cell_limits
 #' @importFrom purrr map
-#' @importFrom dplyr bind_rows select rename filter
-#' 
+#' @importFrom dplyr bind_rows select filter
+#' @importFrom rlang .data
+#'
 #' @rdname read_PCR
 #' @export
 read_indexing_PCR <- function (ss) {
@@ -40,7 +73,7 @@ read_indexing_PCR <- function (ss) {
          finish = width + ((.x-1)*width))
   })
   
-  map(Sets, function(.y){
+  raw <- map(Sets, function(.y){
     map(limits, function(.x){
       read_sheet(ss = ss,
                  range = cell_limits(ul = c(.y[1], .x$start),
@@ -48,10 +81,13 @@ read_indexing_PCR <- function (ss) {
                  col_names = TRUE,
                  col_types = "c")
     })
-  })  |> 
-    bind_rows()  |> 
-    select(Well, Sample, Barcode, Set)
+  }) |> bind_rows()
+  
+  .tidy_PCR_blocks(raw,
+                   keep = c("Well"=1, "Sample"=2, "Barcode"=3, "Set"=4),
+                   block_size = width)
 }
+
 #' Read Normal PCR Spreadsheet
 #'
 #' Reads data from a Google Sheets-based PCR template.  
@@ -61,7 +97,7 @@ read_indexing_PCR <- function (ss) {
 #'
 #' Captures reagent mix, cycling conditions, and sample information.
 #'
-#' @param ss Google Sheet ID or URL of the indexing PCR spreadsheet.
+#' @param ss Google Sheet ID or URL of the PCR spreadsheet.
 #' @param trim Logical. If TRUE, removes rows where `Sample` is NA (default: TRUE).
 #' @param name Logical. If TRUE, adds the spreadsheet name as a `PCR` column in the sample sheet (default: TRUE).
 #'
@@ -78,6 +114,11 @@ read_indexing_PCR <- function (ss) {
 #' }
 #'
 #' @seealso [read_indexing_PCR()] for reading multiplexing PCR spreadsheets.
+#'
+#' @importFrom googlesheets4 read_sheet cell_limits gs4_get
+#' @importFrom purrr map
+#' @importFrom dplyr bind_rows select rename filter
+#' @importFrom rlang .data
 #'
 #' @rdname read_PCR
 #' @export
@@ -106,7 +147,7 @@ read_step1_PCR <- function(ss, trim = TRUE, name = TRUE) {
          finish = width + ((.x-1)*width))
   })
   
-  Samples <- map(Sets, function(.y){
+  raw <- map(Sets, function(.y){
     map(limits, function(.x){
       read_sheet(ss = ss,
                  range = cell_limits(ul = c(.y[1], .x$start),
@@ -114,11 +155,13 @@ read_step1_PCR <- function(ss, trim = TRUE, name = TRUE) {
                  col_names = TRUE,
                  col_types = "c")
     })
-  })  |> 
-    bind_rows()  |> 
-    select(Well, Sample, Success, Notes)
+  }) |> bind_rows()
   
-  if (trim) Samples <- Samples |> filter(!is.na(Sample))
+  Samples <- .tidy_PCR_blocks(raw,
+                              keep = c("Well"=1, "Sample"=2, "Success"=5, "Notes"=6),
+                              block_size = width)
+  
+  if (trim) Samples <- filter(Samples, !is.na(.data$Sample))
   if (name) Samples$PCR <- gs4_get(ss)$name
   
   return(list(PCR_mix = PCR_mix,
