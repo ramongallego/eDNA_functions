@@ -34,8 +34,7 @@ This function takes a long ASV table (tibble) and creates a new column with the 
 to avoid the dominance of species with better primer efficiency
 }
 \examples{
-\dontrun{
 data("training.ASV.table")
 eDNAindex(training.ASV.table, Sample_column = Sample_name)
-}
+
 }

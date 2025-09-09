@@ -23,6 +23,10 @@ This function takes DNA sequences and generates mutated variants.
 Useful for testing classification algorithms on sequences with either PCR-induced or naturally occurring mutations.
 }
 \examples{
-# sequence <- list(DNAbin object or character vector)
-# mutation(sequence, n.mutations = 2)
+data("test_seqs")
+mutation(test_seqs, n.mutations = 2)
+mutation(test_seqs, prob.mutation = 0.1)
+seqs <- fasta_reader(system.file("extdata", "test.fasta", package="eDNAfuns"))
+mutation(seqs$seq, format = "char", n.mutations = 1)
+
 }

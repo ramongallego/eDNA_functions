@@ -53,15 +53,14 @@ Returns the environmental data frame (sample metadata) from a long
 sequence/OTU tibble by removing taxon and abundance columns.
 }
 \examples{
-\dontrun{
-tibble_to_comm(my_data, taxon = Species, Abundance = Count, sample.name = SampleID)
-}
-\dontrun{
-tibble_to_dist(my_data, taxon = Species, Abundance = Count, sample.name = SampleID,
-               distance = "bray", transformation = "hellinger")
-}
-\dontrun{
+data("ASV_table")
+ tibble_to_comm(ASV_table, taxon = Hash, Abundance = nReads, sample.name = sample_name)
+data("ASV_table")
+tibble_to_dist(ASV_table, taxon = Hash, Abundance = nReads, sample.name = sample_name,distance = "bray", transformation = "hellinger")
 
-tibble_to_env(my_data, taxon = Species, Abundance = Count, sample.name = SampleID)
-}
+data("ASV_table")
+data("metadata")
+dplyr::inner_join(ASV_table,metadata) |> 
+tibble_to_env(taxon = Hash, Abundance = nReads, sample.name = sample_name)
+
 }

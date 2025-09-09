@@ -33,13 +33,13 @@ It works with the two most common concentrations used in Molecular Ecology labs
  nM for molarity
 }
 \examples{
-\dontrun{
+
 data("molarity.data")
-molarity.data |> mutate(moles = ng2nM(ng=mass, length_amplicon = Amp_len))
-}
-\dontrun{
+ng2nM(ng=molarity.data$mass, length_amplicon = molarity.data$Amp_len)
+
+
 data("molarity.data")
-molarity.data |> mutate(mass = nM2ng(nM=Molarity, length_amplicon = Amp_len))
-}
+nM2ng(nM=molarity.data$Molarity, length_amplicon = molarity.data$Amp_len)
+
 
 }

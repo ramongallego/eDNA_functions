@@ -31,9 +31,9 @@ reading FASTQ files. Default is `FALSE`.}
 Functions to read sequence files into a tidy data frame with one row per sequence.
 }
 \examples{
-\dontrun{
-fasta_df <- fasta_reader("example.fasta")
-fastq_df <- fastq_reader("example.fastq", keepQ = TRUE)
-}
+
+fasta_df <- fasta_reader(system.file("extdata", "test.fasta", package="eDNAfuns"))
+fastq_df <- fastq_reader(system.file("extdata", "test.fastq", package="eDNAfuns"), keepQ = TRUE)
+
 
 }

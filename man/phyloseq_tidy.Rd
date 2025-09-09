@@ -51,12 +51,14 @@ into a `phyloseq` object.
 Extracts ASV counts, taxonomy, and metadata from a `phyloseq` object into tidy data frames.
 }
 \examples{
-\dontrun{
-ps <- tidy2phyloseq(ASV_table = my_ASV, OTU_taxonomy = my_tax, metadata = my_meta)
-}
+data("ASV_table")
+data("metadata")
+data("OTU_taxonomy")
+ps <- tidy2phyloseq(ASV_table = ASV_table, OTU_taxonomy = OTU_taxonomy, metadata = metadata, Taxa = "Hash", Reads = "nReads")
 
-\dontrun{
-tidy_list <- phyloseq2tidy(my_phyloseq)
-}
+
+data("ps")
+tidy_list <- phyloseq2tidy(ps)
+
 
 }

@@ -49,13 +49,13 @@ The function extracts sample information across all plates and returns a tidy da
 Captures reagent mix, cycling conditions, and sample information.
 }
 \examples{
-\dontrun{
-read_indexing_PCR("https://docs.google.com/spreadsheets/d/...")
-}
+data("Index_PCR")
+read_indexing_PCR(Index_PCR)
 
-\dontrun{
-read_step1_PCR("https://docs.google.com/spreadsheets/d/...")
-}
+
+data("template_PCR")
+read_step1_PCR(template_PCR)
+
 
 }
 \seealso{
