@@ -13,8 +13,12 @@
 #' @importFrom stats runif
 #'
 #' @examples
-#' # sequence <- list(DNAbin object or character vector)
-#' # mutation(sequence, n.mutations = 2)
+#' data("test_seqs")
+#' mutation(test_seqs, n.mutations = 2)
+#' mutation(test_seqs, prob.mutation = 0.1)
+#' seqs <- fasta_reader(system.file("extdata", "test.fasta", package="eDNAfuns"))
+#' mutation(seqs$seq, format = "char", n.mutations = 1)
+#' 
 mutation <- function(sequence = NULL, format = "bin", n.mutations = NA, prob.mutation = NA) {
   
   if ((is.na(n.mutations) & is.na(prob.mutation)) | (!is.na(n.mutations) & !is.na(prob.mutation))) {

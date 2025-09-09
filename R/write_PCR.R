@@ -25,12 +25,12 @@
 #' 4. Writes each split dataframe into its designated range of the sheet.
 #'
 #' @examples
-#' \dontrun{
-#' my_data <- tibble::tibble(
-#'   Well = c("A1","A2"),
-#'   Sample = c("Sample1","Sample2"),
-#'   Column = c(1,2)
-#' )
+#' \donttest{
+# my_data <- tibble::tibble(
+#   Well = c("A1","A2"),
+#   Sample = c("Sample1","Sample2"),
+#   Column = c(1,2)
+# )
 #' write_indexing_PCR(my_data, "PCR_001")
 #' }
 #'
@@ -46,7 +46,7 @@ write_indexing_PCR <- function (data,
   ss_obj <- gs4_create(name)
   
   sheet_copy(from_ss = ss_template, to_ss = ss_obj, to_sheet = "Good")
-  sheet_delete(ss_obj, "Sheet1")
+  sheet_delete(ss_obj, 1)
   
   data |> 
     group_by(Column) |> 

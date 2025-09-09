@@ -15,9 +15,11 @@
 #'
 #' @rdname phyloseq_tidy
 #' @examples
-#' \dontrun{
-#' ps <- tidy2phyloseq(ASV_table = my_ASV, OTU_taxonomy = my_tax, metadata = my_meta)
-#' }
+#' data("ASV_table")
+#' data("metadata")
+#' data("OTU_taxonomy")
+#' ps <- tidy2phyloseq(ASV_table = ASV_table, OTU_taxonomy = OTU_taxonomy, metadata = metadata, Taxa = "Hash", Reads = "nReads")
+#' 
 #'
 #' @importFrom phyloseq phyloseq tax_table sample_data otu_table
 #' @importFrom dplyr semi_join
@@ -84,9 +86,9 @@ tidy2phyloseq <- function(ASV_table,
 #' @rdname phyloseq_tidy
 #'
 #' @examples
-#' \dontrun{
-#' tidy_list <- phyloseq2tidy(my_phyloseq)
-#' }
+#' data("ps")
+#' tidy_list <- phyloseq2tidy(ps)
+#' 
 #'
 #' @importFrom phyloseq otu_table tax_table sample_data
 #' @importFrom dplyr filter all_of

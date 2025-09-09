@@ -18,9 +18,9 @@
 #' }
 #'
 #' @examples
-#' \dontrun{
-#' read_indexing_PCR("https://docs.google.com/spreadsheets/d/...")
-#' }
+#' data("Index_PCR")
+#' read_indexing_PCR(Index_PCR)
+#' 
 #'
 #' @seealso [read_step1_PCR()] for reading normal PCR spreadsheets.
 #'
@@ -73,9 +73,9 @@ read_indexing_PCR <- function (ss) {
 #' }
 #'
 #' @examples
-#' \dontrun{
-#' read_step1_PCR("https://docs.google.com/spreadsheets/d/...")
-#' }
+#' data("template_PCR")
+#' read_step1_PCR(template_PCR)
+#' 
 #'
 #' @seealso [read_indexing_PCR()] for reading multiplexing PCR spreadsheets.
 #'

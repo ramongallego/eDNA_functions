@@ -18,10 +18,10 @@
 #'   - `Qscores` (optional): quality scores, if `keepQ = TRUE`.
 #'
 #' @examples
-#' \dontrun{
-#' fasta_df <- fasta_reader("example.fasta")
-#' fastq_df <- fastq_reader("example.fastq", keepQ = TRUE)
-#' }
+#' 
+#' fasta_df <- fasta_reader(system.file("extdata", "test.fasta", package="eDNAfuns"))
+#' fastq_df <- fastq_reader(system.file("extdata", "test.fastq", package="eDNAfuns"), keepQ = TRUE)
+#' 
 #'
 #' @export
 fasta_reader <- function(path_to_fasta) {

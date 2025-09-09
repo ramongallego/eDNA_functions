@@ -26,10 +26,10 @@
 #'   `QScores_matching`, `QScores_after`.
 #'
 #' @examples
-#' \dontrun{
-#' df_illumina <- read_info_file("cutadapt_info_illumina.txt")
-#' df_nanopore <- read_info_file_nanopore("cutadapt_info_nanopore.txt")
-#' }
+#' 
+#' df_illumina <- read_info_file(system.file("extdata", "cutadapt_info_illumina.txt", package="eDNAfuns"))
+#' 
+#' 
 #'
 #' @export
 read_info_file <- function(file, delim = "\t", col_select = NULL, ...) {
