@@ -26,8 +26,8 @@
 #'   `QScores_matching`, `QScores_after`.
 #'
 #' @examples
-#' 
-#' df_illumina <- read_info_file(system.file("extdata", "cutadapt_info_illumina.txt", package="eDNAfuns"))
+#' test_info <- system.file("extdata", "cutadapt_info_illumina.txt", package="eDNAfuns")
+#' df_illumina <- read_info_file(test_info)
 #' 
 #' 
 #'

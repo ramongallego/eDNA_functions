@@ -20,7 +20,10 @@
 #'
 #' @examples
 #' data("ASV_table")
-#'  tibble_to_comm(ASV_table, taxon = Hash, Abundance = nReads, sample.name = sample_name)
+#'  tibble_to_comm(ASV_table, 
+#'                 taxon = Hash,
+#'                  Abundance = nReads,
+#'                   sample.name = sample_name)
 
 tibble_to_comm <- function(long.table, taxon, Abundance, sample.name) {
   sample.name <- rlang::enquo(sample.name)
@@ -68,7 +71,12 @@ tibble_to_comm <- function(long.table, taxon, Abundance, sample.name) {
 #' 
 #' @examples
 #' data("ASV_table")
-#' tibble_to_dist(ASV_table, taxon = Hash, Abundance = nReads, sample.name = sample_name,distance = "bray", transformation = "hellinger")
+#' tibble_to_dist(ASV_table,
+#'                taxon = Hash,
+#'                Abundance = nReads,
+#'                sample.name = sample_name,
+#'                distance = "bray",
+#'                transformation = "hellinger")
 #' 
 
 
@@ -133,7 +141,9 @@ tibble_to_dist <- function(long.table, taxon, Abundance, sample.name,
 #' data("ASV_table")
 #' data("metadata")
 #' dplyr::inner_join(ASV_table,metadata) |> 
-#' tibble_to_env(taxon = Hash, Abundance = nReads, sample.name = sample_name)
+#' tibble_to_env(taxon = Hash,
+#'               Abundance = nReads, 
+#'               sample.name = sample_name)
 #' 
 
 tibble_to_env <- function(long.table, taxon, Abundance, sample.name, ...) {

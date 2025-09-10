@@ -18,7 +18,11 @@
 #' data("ASV_table")
 #' data("metadata")
 #' data("OTU_taxonomy")
-#' ps <- tidy2phyloseq(ASV_table = ASV_table, OTU_taxonomy = OTU_taxonomy, metadata = metadata, Taxa = "Hash", Reads = "nReads")
+#' ps <- tidy2phyloseq(ASV_table = ASV_table,
+#'                     OTU_taxonomy = OTU_taxonomy,
+#'                     metadata = metadata,
+#'                     Taxa = "Hash",
+#'                     Reads = "nReads")
 #' 
 #'
 #' @importFrom phyloseq phyloseq tax_table sample_data otu_table

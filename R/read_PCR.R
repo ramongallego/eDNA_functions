@@ -18,9 +18,10 @@
 #' }
 #'
 #' @examples
+#'\donttest{
 #' data("Index_PCR")
 #' read_indexing_PCR(Index_PCR)
-#' 
+#' }
 #'
 #' @seealso [read_step1_PCR()] for reading normal PCR spreadsheets.
 #'

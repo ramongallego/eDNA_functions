@@ -54,7 +54,11 @@ Extracts ASV counts, taxonomy, and metadata from a `phyloseq` object into tidy d
 data("ASV_table")
 data("metadata")
 data("OTU_taxonomy")
-ps <- tidy2phyloseq(ASV_table = ASV_table, OTU_taxonomy = OTU_taxonomy, metadata = metadata, Taxa = "Hash", Reads = "nReads")
+ps <- tidy2phyloseq(ASV_table = ASV_table,
+                    OTU_taxonomy = OTU_taxonomy,
+                    metadata = metadata,
+                    Taxa = "Hash",
+                    Reads = "nReads")
 
 
 data("ps")

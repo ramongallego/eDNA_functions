@@ -54,13 +54,23 @@ sequence/OTU tibble by removing taxon and abundance columns.
 }
 \examples{
 data("ASV_table")
- tibble_to_comm(ASV_table, taxon = Hash, Abundance = nReads, sample.name = sample_name)
+ tibble_to_comm(ASV_table, 
+                taxon = Hash,
+                 Abundance = nReads,
+                  sample.name = sample_name)
 data("ASV_table")
-tibble_to_dist(ASV_table, taxon = Hash, Abundance = nReads, sample.name = sample_name,distance = "bray", transformation = "hellinger")
+tibble_to_dist(ASV_table,
+               taxon = Hash,
+               Abundance = nReads,
+               sample.name = sample_name,
+               distance = "bray",
+               transformation = "hellinger")
 
 data("ASV_table")
 data("metadata")
 dplyr::inner_join(ASV_table,metadata) |> 
-tibble_to_env(taxon = Hash, Abundance = nReads, sample.name = sample_name)
+tibble_to_env(taxon = Hash,
+              Abundance = nReads, 
+              sample.name = sample_name)
 
 }
