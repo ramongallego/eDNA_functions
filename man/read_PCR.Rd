@@ -49,12 +49,12 @@ The function extracts sample information across all plates and returns a tidy da
 Captures reagent mix, cycling conditions, and sample information.
 }
 \examples{
-\donttest{
+\dontrun{
 data("Index_PCR")
 read_indexing_PCR(Index_PCR)
 }
 
-\donttest{
+\dontrun{
 data("template_PCR")
 read_step1_PCR(template_PCR)
 }

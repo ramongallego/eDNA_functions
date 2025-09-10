@@ -18,7 +18,7 @@
 #' }
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' data("Index_PCR")
 #' read_indexing_PCR(Index_PCR)
 #' }
@@ -74,7 +74,7 @@ read_indexing_PCR <- function (ss) {
 #' }
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' data("template_PCR")
 #' read_step1_PCR(template_PCR)
 #' }
