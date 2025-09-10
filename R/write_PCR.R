@@ -25,7 +25,7 @@
 #' 4. Writes each split dataframe into its designated range of the sheet.
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 # my_data <- tibble::tibble(
 #   Well = c("A1","A2"),
 #   Sample = c("Sample1","Sample2"),

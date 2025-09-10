@@ -40,7 +40,7 @@ This function:
 4. Writes each split dataframe into its designated range of the sheet.
 }
 \examples{
-\donttest{
+\dontrun{
 write_indexing_PCR(my_data, "PCR_001")
 }
 
