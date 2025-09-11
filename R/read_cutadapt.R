@@ -12,7 +12,7 @@
 #' @importFrom vroom vroom 
 #' @importFrom readr default_locale 
 #'
-#' @return A tibble with the parsed cutadapt information. Column names are standardized.
+#' @return A tibble with the parsed 'cutadapt' information. Column names are standardized.
 #'
 #' @details
 # #' - `read_info_file_nanopore()` returns columns:
