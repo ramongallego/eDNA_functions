@@ -18,6 +18,7 @@
 #' }
 #'
 #' @examples
+#' # Examples are not executed because the function requires identification in Google 
 #' \dontrun{
 #' data("Index_PCR")
 #' read_indexing_PCR(Index_PCR)
@@ -74,6 +75,7 @@ read_indexing_PCR <- function (ss) {
 #' }
 #'
 #' @examples
+#' # Examples are not executed because the function requires identification in Google 
 #' \dontrun{
 #' data("template_PCR")
 #' read_step1_PCR(template_PCR)
