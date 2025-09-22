@@ -40,8 +40,8 @@ fasta_writer(fasta_df, sequence=seq,
               header = header,
               file.out = "test.fasta")
 fastq_df <- fastq_reader(system.file("extdata", "test.fastq", package="eDNAfuns"), keepQ = TRUE)
-fastq_writer(fasta_df, sequence=seq,
+fastq_writer(fastq_df, sequence=seq,
               header = header,Qscores= Qscores,
-              file.out = "test.fasta")
+              file.out = "test.fastq")
 
 }
