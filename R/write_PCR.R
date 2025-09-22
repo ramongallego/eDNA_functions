@@ -25,12 +25,13 @@
 #' 4. Writes each split dataframe into its designated range of the sheet.
 #'
 #' @examples
+#' #Examples are not executed because the function requires identification in Google 
 #' \dontrun{
-# my_data <- tibble::tibble(
-#   Well = c("A1","A2"),
-#   Sample = c("Sample1","Sample2"),
-#   Column = c(1,2)
-# )
+#' my_data <- tibble::tibble(
+#'  Well = c("A1","A2"),
+#'   Sample = c("Sample1","Sample2"),
+#'   Column = c(1,2)
+#' )
 #' write_indexing_PCR(my_data, "PCR_001")
 #' }
 #'
