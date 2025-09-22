@@ -1,9 +1,45 @@
+#' Read FASTA or FASTQ files into a tibble
+#'
+#' Functions to read sequence files into a tidy data frame with one row per sequence.
+#' @param df A dataframe where the sequence information is stored, one sequence per row
+#' @param header The name (unquoted) of the column where the header information is stored
+#' @param sequence The name (unquoted) of the column where the sequence information (as characters) is stored
+#' @param Qscores The name (unquoted) of the column where the Quality information (encoded as characters) is stored
+#' @param file.out Character. Path to the location where to write the file.
+#' 
+#'
+#' @return
+#' - `fasta_reader()`: A tibble with columns:
+#'   - `header`: sequence identifiers (without the `>`).
+#'   - `seq`: nucleotide sequences.
+#'
+#' - `fastq_reader()`: A tibble with columns:
+#'   - `header`: sequence identifiers (without the `@`).
+#'   - `seq`: nucleotide sequences.
+#'   - `Qscores` (optional): quality scores, if `keepQ = TRUE`.
+#'
+#' @examples
+#' 
+#' fasta_df <- fasta_reader(system.file("extdata", "test.fasta", package="eDNAfuns"))
+#' fasta_writer(fasta_df, sequence=seq,
+#'               header = header,
+#'               file.out = "test.fasta")
+#' fastq_df <- fastq_reader(system.file("extdata", "test.fastq", package="eDNAfuns"), keepQ = TRUE)
+#' fastq_writer(fasta_df, sequence=seq,
+#'               header = header,Qscores= Qscores,
+#'               file.out = "test.fasta")
+#'
+#' @export
 fasta_writer <- function(df, sequence, header, file.out){
   fasta <- character(nrow(df) * 2)
   fasta[c(TRUE, FALSE)] <- paste0(">", df |> pull({{header}}))
   fasta[c(FALSE, TRUE)] <- df|> pull({{sequence}})
   writeLines(fasta, file.out)
 }
+
+#' @rdname fasta_writer
+#' @export
+
 
 fastq_writer <- function(df, sequence, header,Qscores, file.out){
   fastq <- character(nrow(df) * 4)
