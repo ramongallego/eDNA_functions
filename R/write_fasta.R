@@ -19,15 +19,21 @@
 #'   - `Qscores` (optional): quality scores, if `keepQ = TRUE`.
 #'
 #' @examples
+#' fasta_file <- tempfile(fileext = ".fasta")
 #' 
 #' fasta_df <- fasta_reader(system.file("extdata", "test.fasta", package="eDNAfuns"))
+#' 
 #' fasta_writer(fasta_df, sequence=seq,
 #'               header = header,
-#'               file.out = "test.fasta")
+#'               file.out = fasta_file)
+#'  
+#' fastq_file <- tempfile(fileext = ".fastq")  
+#'            
 #' fastq_df <- fastq_reader(system.file("extdata", "test.fastq", package="eDNAfuns"), keepQ = TRUE)
+#' 
 #' fastq_writer(fastq_df, sequence=seq,
 #'               header = header,Qscores= Qscores,
-#'               file.out = "test.fastq")
+#'               file.out = fastq_file)
 #'
 #' @export
 fasta_writer <- function(df, sequence, header, file.out){
