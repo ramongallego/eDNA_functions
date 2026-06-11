@@ -39,7 +39,13 @@ read_info_file <- function(file, delim = "\t", col_select = NULL, ...) {
     "QScores_matching", "QScores_after"
   )
   col_types <- c("ciiiccccccc")
-  vroom::vroom(file, delim = delim, col_names = col_names, col_types = col_types, col_select = {{col_names}}, ...,locale = readr::default_locale())
+  vroom::vroom(file,
+               delim = delim,
+               col_names = col_names, 
+               col_types = col_types,
+               col_select = {{col_names}},
+               altrep=F,
+               ...,locale = readr::default_locale())
 }
 
 # #' @rdname read_info_file
